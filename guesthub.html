@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<!--
+  SomaVio Guest Hub
+  Version: v0.9.8-localperks-mobile-layout
+  Base: guesthub.html — v0.9.7-staycare-responsive-lock
+  Date: 2026-06-17
+  Scope: Local Perks mobile/tablet layout refinement only, preserving Guest Safety Alert, Before You Go, StayCare responsive lock, Local Perks glassmorphism and EN/JA selector.
+-->
+<html lang="en" data-sv-page="guesthub">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SomaVio | Guest Hub</title>
+  <meta name="description" content="A premium guest dashboard for hotel essentials, curated experiences, local perks and StayCare support." />
+  <meta name="somavio-version" content="guesthub v0.9.8-localperks-mobile-layout; base v0.9.7-staycare-responsive-lock" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <style>
+    :root {
+      --stone:       #2C2C2A;
+      --sage:        #6B7F6E;
+      --mist:        #F4F1EC;
+      --glacier:     #D6E4E1;
+      --amber:       #C8923A;
+      --slate:       #4A5568;
+      --white:       #FFFFFF;
+      --care-blue:   #3B82F6;
+      --care-amber:  #D97706;
+      --care-teal:   #0D9488;
+      --emergency:   #DC2626;
+
+      --shadow-1: 0 1px 3px rgba(44,44,42,0.08);
+      --shadow-2: 0 4px 12px rgba(44,44,42,0.12);
+      --shadow-3: 0 8px 32px rgba(44,44,42,0.18);
+      --shadow-4: 0 18px 60px rgba(44,44,42,0.22);
+
+      --r-card: 8px;
+      --r-btn:  6px;
+      --r-pill: 100px;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'Inter', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--mist);
+      color: var(--stone);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button, textarea, input, select { font: inherit; }
+    button { border: none; background: none; cursor: pointer; }
+    ul { list-style: none; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+    .label-caps { font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; }
+
+    .context-bar {
+      position: sticky; top: 0; z-index: 100;
+      height: 36px; background: var(--mist);
+      border-bottom: 1px solid rgba(44,44,42,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 500; color: var(--slate);
+      letter-spacing: 0.04em;
+    }
+    .ctx-accent { color: var(--sage); font-weight: 700; }
+
+    .hub-header {
+      position: sticky; top: 36px; z-index: 99;
+      height: 72px; background: var(--stone);
+      display: flex; align-items: center;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.08);
+    }
+    .hub-header-inner {
+      display: flex; align-items: center; gap: 18px;
+      width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 40px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-display); font-size: 20px;
+      color: var(--white); font-weight: 700; flex-shrink: 0;
+    }
+    .logo-icon {
+      width: 32px; height: 32px; background: var(--amber);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
+    .logo-icon svg { color: var(--white); }
+    .hub-divider { width: 1px; height: 28px; background: rgba(255,255,255,0.16); flex-shrink: 0; }
+    .guest-identity { min-width: 0; color: var(--white); }
+    .guest-identity-main { display: flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 800; white-space: nowrap; }
+    .guest-identity-sub { margin-top: 2px; font-size: 11px; color: rgba(255,255,255,0.55); white-space: nowrap; }
+    .hub-header-actions { display: flex; align-items: center; gap: 12px; margin-left: auto; flex-shrink: 0; }
+    .hotel-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.82); padding: 8px 13px; border-radius: var(--r-pill);
+      font-size: 12px; font-weight: 800;
+    }
+    .hotel-pill svg { width: 14px; height: 14px; color: var(--amber); }
+
+    .lang-selector-wrap { position: relative; }
+    .lang-toggle {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 12px;
+      border: 1.5px solid rgba(255,255,255,0.22);
+      border-radius: var(--r-pill);
+      color: var(--white); font-size: 13px; font-weight: 800;
+      background: transparent; transition: border-color 0.2s;
+    }
+    .lang-toggle:hover { border-color: rgba(255,255,255,0.44); }
+    .lang-toggle svg { color: rgba(255,255,255,0.65); }
+    .lang-dropdown {
+      position: absolute; top: calc(100% + 9px); right: 0;
+      background: var(--white); border-radius: var(--r-card);
+      box-shadow: var(--shadow-2); padding: 8px; min-width: 150px;
+      display: none; flex-direction: column; gap: 2px; z-index: 200;
+    }
+    .lang-dropdown.open { display: flex; }
+    .lang-option {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 6px;
+      font-size: 13px; font-weight: 700; color: var(--slate);
+      background: none; text-align: left; width: 100%;
+      transition: background 0.15s, color 0.15s;
+    }
+    .lang-option:hover { background: var(--mist); color: var(--stone); }
+    .lang-option.active { color: var(--stone); background: var(--glacier); }
+    .lang-flag { font-size: 16px; }
+
+    .hub-hero {
+      position: relative;
+      min-height: 560px;
+      background-image:
+        linear-gradient(90deg, rgba(44,44,42,0.74) 0%, rgba(44,44,42,0.48) 46%, rgba(44,44,42,0.18) 100%),
+        url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1600&q=86&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+    .hub-hero::after {
+      content: '';
+      position: absolute; inset: auto 0 0 0; height: 160px;
+      background: linear-gradient(to top, rgba(244,241,236,0.98), rgba(244,241,236,0));
+      pointer-events: none;
+    }
+    .hub-hero-inner { position: relative; z-index: 2; width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 40px 74px; }
+    .hub-hero-label { color: var(--glacier); margin-bottom: 16px; }
+    .hub-hero-title {
+      font-family: var(--font-display); font-size: clamp(42px, 5.3vw, 66px); line-height: 1.05;
+      color: var(--white); font-weight: 400; max-width: 820px; margin-bottom: 18px;
+    }
+    .hub-hero-title em { font-style: italic; color: var(--glacier); }
+    .hub-hero-sub { max-width: 640px; color: rgba(255,255,255,0.84); font-size: 17px; line-height: 1.65; }
+    .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .hero-primary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--amber); color: var(--white); padding: 14px 22px;
+      border-radius: var(--r-btn); font-size: 14px; font-weight: 900;
+      box-shadow: 0 12px 26px rgba(0,0,0,0.18);
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+    .hero-primary:hover { transform: translateY(-2px); background: #b8802c; }
+    .hero-secondary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      border: 1.5px solid rgba(255,255,255,0.30); color: var(--white);
+      padding: 13px 20px; border-radius: var(--r-btn); font-size: 14px; font-weight: 800;
+      background: rgba(255,255,255,0.08); backdrop-filter: blur(10px);
+    }
+
+    .hero-status-panel {
+      position: relative; z-index: 4;
+      margin-top: -44px;
+    }
+    .hero-status-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .hero-status-card {
+      background: rgba(255,255,255,0.94); border: 1px solid rgba(44,44,42,0.07);
+      border-radius: 14px; padding: 18px 18px; box-shadow: var(--shadow-3);
+      backdrop-filter: blur(14px); display: flex; align-items: flex-start; gap: 12px; min-height: 106px;
+      min-width: 0;
+    }
+    .hero-status-icon {
+      width: 38px; height: 38px; border-radius: 10px; background: var(--glacier);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .hero-status-icon svg { width: 19px; height: 19px; color: var(--sage); }
+    .hero-status-label { color: var(--slate); margin-bottom: 4px; }
+    .hero-status-value { color: var(--stone); font-size: 16px; font-weight: 900; line-height: 1.25; }
+    .hero-status-note { color: var(--slate); font-size: 12px; line-height: 1.45; margin-top: 5px; }
+
+    .section { padding: 72px 0; }
+    .section-white { background: var(--white); }
+    .section-mist { background: var(--mist); }
+    .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 30px; }
+    .section-kicker { color: var(--sage); margin-bottom: 9px; }
+    .section-title { font-family: var(--font-display); font-size: clamp(30px, 3.2vw, 44px); line-height: 1.12; font-weight: 700; color: var(--stone); }
+    .section-sub { max-width: 660px; font-size: 14px; color: var(--slate); line-height: 1.7; margin-top: 10px; }
+
+    .premium-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      align-items: stretch;
+    }
+    .premium-feature-card, .premium-side-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      background: var(--stone);
+      box-shadow: var(--shadow-2);
+      min-height: 318px;
+      isolation: isolate;
+      grid-column: auto;
+    }
+    .premium-feature-card { grid-column: auto; }
+    .premium-side-stack { display: contents; }
+    .premium-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+      transition: transform 0.35s ease;
+    }
+    .premium-feature-card:hover .premium-img, .premium-side-card:hover .premium-img { transform: scale(1.04); }
+    .premium-feature-card::before, .premium-side-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(to top, rgba(44,44,42,0.82), rgba(44,44,42,0.42) 54%, rgba(44,44,42,0.10));
+    }
+    .premium-content {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 22px;
+      color: var(--white);
+    }
+    .premium-side-card .premium-content { padding: 22px; }
+    .premium-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+    .experience-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 8px;
+      border-radius: var(--r-pill);
+      background: rgba(255,255,255,0.92);
+      color: var(--stone);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 0.055em;
+      text-transform: uppercase;
+    }
+    .experience-badge.gold { background: var(--amber); color: var(--white); }
+    .experience-badge.sage { background: var(--sage); color: var(--white); }
+    .premium-title, .premium-side-card .premium-title {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 2.3vw, 32px);
+      line-height: 1.06;
+      font-weight: 700;
+      margin-bottom: 8px;
+      max-width: 360px;
+    }
+    .premium-copy, .premium-side-card .premium-copy {
+      color: rgba(255,255,255,0.82);
+      font-size: 12.5px;
+      line-height: 1.52;
+      max-width: 360px;
+      margin-bottom: 14px;
+    }
+    .premium-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--white);
+      color: var(--stone);
+      padding: 10px 13px;
+      border-radius: var(--r-btn);
+      font-size: 11.5px;
+      font-weight: 900;
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+    .premium-cta:hover { transform: translateY(-2px); background: var(--glacier); }
+
+    .experience-manager {
+      background:
+        radial-gradient(circle at 10% 0%, rgba(214,228,225,0.75), transparent 34%),
+        linear-gradient(135deg, var(--white) 0%, #FBFAF7 100%);
+      border-top: 1px solid rgba(44,44,42,0.06);
+      border-bottom: 1px solid rgba(44,44,42,0.06);
+    }
+    .experience-card {
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; align-items: stretch;
+      background: var(--stone); border-radius: 18px; overflow: hidden; box-shadow: var(--shadow-4);
+    }
+    .experience-content { padding: 42px; color: var(--white); }
+    .experience-kicker { color: var(--amber); margin-bottom: 13px; }
+    .experience-title { font-family: var(--font-display); font-size: 40px; line-height: 1.12; font-weight: 700; margin-bottom: 14px; }
+    .experience-copy { color: rgba(255,255,255,0.78); font-size: 15px; line-height: 1.75; max-width: 680px; margin-bottom: 24px; }
+    .staycare-cta {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      background: var(--amber); color: var(--white); border-radius: var(--r-btn);
+      padding: 15px 24px; font-size: 15px; font-weight: 900;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.16);
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+    .staycare-cta:hover { transform: translateY(-2px); background: #b8802c; }
+    .experience-side {
+      min-height: 330px; position: relative;
+      background-image: linear-gradient(rgba(44,44,42,0.12), rgba(44,44,42,0.34)), url('https://images.unsplash.com/photo-1609948543911-0b428dc58e4e?w=900&q=85&auto=format&fit=crop');
+      background-size: cover; background-position: center;
+    }
+    .manager-hours-card {
+      position: absolute; left: 22px; right: 22px; bottom: 22px;
+      background: rgba(255,255,255,0.92); border-radius: 12px; padding: 16px;
+      backdrop-filter: blur(10px); box-shadow: var(--shadow-2);
+    }
+    .manager-hours-label { color: var(--sage); margin-bottom: 5px; }
+    .manager-hours-text { color: var(--stone); font-size: 14px; font-weight: 900; }
+    .manager-hours-sub { color: var(--slate); font-size: 12px; margin-top: 4px; line-height: 1.45; }
+
+    .section-compact { padding: 34px 0 24px; }
+    .utilities-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+      position: relative;
+    }
+    .utility-mini-card {
+      position: relative;
+      min-height: 108px;
+      background: var(--white);
+      border: 1px solid rgba(44,44,42,0.08);
+      border-radius: 18px;
+      padding: 12px 10px 11px;
+      text-align: center;
+      box-shadow: var(--shadow-1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+    .utility-mini-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); border-color: rgba(107,127,110,0.28); }
+    .wifi-card { background: linear-gradient(135deg, #FFFFFF 0%, rgba(214,228,225,0.50) 100%); z-index: 5; }
+    .wifi-card.is-open { border-color: rgba(107,127,110,0.48); box-shadow: var(--shadow-3); }
+    .utility-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      gap: 8px;
+    }
+    .utility-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: var(--glacier);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .utility-icon svg { width: 20px; height: 20px; color: var(--sage); }
+    .utility-micro-label {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 18px;
+      padding: 3px 6px;
+      border-radius: var(--r-pill);
+      background: rgba(200,146,58,0.12);
+      color: var(--amber);
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .utility-action-card .utility-micro-label { display: none; }
+    .wifi-title, .utility-action-title {
+      display: block;
+      color: var(--stone);
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1.18;
+      margin-bottom: 0;
+    }
+    .wifi-note, .utility-action-copy { display: none; }
+    .utility-action-link { display: none; }
+    .wifi-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: var(--sage);
+      font-size: 10.5px;
+      font-weight: 900;
+      margin-top: 0;
+    }
+    .wifi-toggle svg { width: 12px; height: 12px; transition: transform 0.18s ease; }
+    .wifi-card.is-open .wifi-toggle svg { transform: rotate(180deg); }
+    .wifi-expanded {
+      position: absolute;
+      left: 0;
+      top: calc(100% + 10px);
+      width: min(440px, 92vw);
+      display: none;
+      text-align: left;
+      background: var(--white);
+      border: 1px solid rgba(44,44,42,0.10);
+      border-radius: 14px;
+      box-shadow: var(--shadow-4);
+      padding: 16px;
+      z-index: 20;
+    }
+    .wifi-card.is-open .wifi-expanded { display: block; animation: wifiPop 0.18s ease; }
+    @keyframes wifiPop { from { transform: translateY(-4px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .credential-box { display: grid; gap: 8px; margin-bottom: 12px; }
+    .credential-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: rgba(214,228,225,0.60); padding: 10px 12px; border-radius: 8px; }
+    .credential-label { color: var(--slate); font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.10em; }
+    .credential-value { color: var(--stone); font-size: 13px; font-weight: 900; }
+    .wifi-support-copy { display: block; color: var(--slate); font-size: 12px; line-height: 1.55; }
+    .wifi-support-link { display: inline; color: var(--sage); font-size: 12px; font-weight: 900; text-decoration: underline; text-underline-offset: 3px; }
+    .utility-action-card { background: #FBFAF7; }
+    .utility-action-card:hover { background: var(--glacier); }
+    .utility-action-card svg { flex-shrink: 0; }
+
+    .hub-footer { background: var(--stone); padding: 26px 0; }
+    .hub-footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .footer-brand { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); color: var(--white); font-weight: 700; }
+    .footer-note { font-size: 11px; color: rgba(255,255,255,0.42); max-width: 620px; line-height: 1.55; }
+
+    .gear-modal-overlay {
+      position: fixed; inset: 0; z-index: 700;
+      background: rgba(44,44,42,0.66);
+      display: none; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .gear-modal-overlay.open { display: flex; }
+    .gear-modal {
+      width: min(1080px, 100%); max-height: 92vh; overflow-y: auto;
+      background: var(--mist); border-radius: 16px; box-shadow: var(--shadow-3);
+      animation: modalSlide 0.22s ease;
+    }
+    @keyframes modalSlide { from { transform: translateY(18px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .gear-modal-top {
+      position: sticky; top: 0; z-index: 2;
+      background: var(--stone); color: var(--white);
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 18px;
+      padding: 24px 28px;
+    }
+    .gear-modal-title { font-family: var(--font-display); font-size: 30px; line-height: 1.15; font-weight: 700; margin-bottom: 7px; }
+    .gear-modal-sub { color: rgba(255,255,255,0.72); font-size: 14px; line-height: 1.65; max-width: 800px; }
+    .gear-modal-close { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.10); color: rgba(255,255,255,0.78); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .gear-modal-close:hover { background: rgba(255,255,255,0.18); color: var(--white); }
+    .gear-modal-close svg { width: 18px; height: 18px; }
+    .gear-modal-body { padding: 28px; }
+
+    .care-story { background: var(--white); border-radius: 14px; box-shadow: var(--shadow-1); padding: 22px; border-left: 4px solid var(--sage); margin-bottom: 16px; }
+    .care-story-label { color: var(--sage); margin-bottom: 8px; }
+    .care-story-text { color: var(--stone); font-size: 14px; line-height: 1.75; }
+    .care-story-text strong { color: var(--stone); }
+    .emergency-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+    .emergency-action { display: flex; align-items: center; gap: 14px; border-radius: 12px; padding: 17px 18px; background: rgba(220,38,38,0.07); border: 1px solid rgba(220,38,38,0.18); color: var(--stone); text-align: left; }
+    .emergency-action.secondary { background: rgba(217,119,6,0.08); border-color: rgba(217,119,6,0.20); }
+    .emergency-action-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--emergency); color: var(--white); flex-shrink: 0; }
+    .emergency-action.secondary .emergency-action-icon { background: var(--care-amber); }
+    .emergency-action-icon svg { width: 19px; height: 19px; }
+    .emergency-action-title { display:block; font-size: 14px; font-weight: 900; margin-bottom: 2px; }
+    .emergency-action-sub { display:block; font-size: 12px; color: var(--slate); line-height: 1.35; }
+
+    .view-toggle { display: flex; align-items: center; gap: 8px; margin: 20px 0 14px; }
+    .view-toggle-label { font-size: 12px; font-weight: 900; color: var(--slate); }
+    .view-toggle-btn { padding: 7px 14px; border-radius: var(--r-pill); font-size: 12px; font-weight: 900; border: 1.5px solid var(--glacier); background: var(--white); color: var(--slate); transition: all 0.15s; }
+    .view-toggle-btn.active { background: var(--stone); border-color: var(--stone); color: var(--white); }
+    .hotel-staff-view { background: var(--stone); border-radius: 12px; padding: 18px 20px; margin-bottom: 14px; display: none; box-shadow: var(--shadow-2); }
+    .hotel-staff-view.visible { display: block; }
+    .staff-view-label { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.42); margin-bottom: 12px; }
+    .staff-msg { background: rgba(255,255,255,0.07); border-radius: 8px; padding: 13px; margin-bottom: 9px; }
+    .staff-msg-room { font-size: 11px; font-weight: 900; color: var(--amber); margin-bottom: 5px; }
+    .staff-msg-text { font-size: 13px; color: rgba(255,255,255,0.88); margin-bottom: 6px; }
+    .staff-msg-original { font-size: 11px; color: rgba(255,255,255,0.45); font-style: italic; }
+    .staff-reply-area { display: flex; gap: 8px; margin-top: 10px; }
+    .staff-reply-input { flex: 1; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; padding: 9px 12px; font-size: 13px; color: var(--white); outline: none; }
+    .staff-reply-input::placeholder { color: rgba(255,255,255,0.35); }
+    .staff-reply-btn { padding: 9px 16px; background: var(--sage); color: var(--white); border-radius: 6px; font-size: 13px; font-weight: 900; }
+
+    .chat-section { background: var(--white); border-radius: 12px; box-shadow: var(--shadow-2); overflow: hidden; }
+    .chat-header { background: var(--stone); padding: 16px 20px; display: flex; align-items: center; gap: 12px; }
+    .chat-header-icon { width: 36px; height: 36px; background: var(--sage); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .chat-header-icon svg { width: 16px; height: 16px; color: var(--white); }
+    .chat-header-title { font-size: 14px; font-weight: 900; color: var(--white); }
+    .chat-header-sub { font-size: 11px; color: rgba(255,255,255,0.55); }
+    .chat-lang-select { margin-left: auto; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: var(--r-pill); padding: 6px 10px; font-size: 12px; font-weight: 900; color: var(--white); cursor: pointer; }
+    .chat-lang-select option { background: var(--stone); color: var(--white); }
+    .chat-presets { padding: 14px 16px; border-bottom: 1px solid rgba(44,44,42,0.06); background: var(--mist); }
+    .chat-presets-label { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; color: var(--slate); margin-bottom: 10px; }
+    .chat-preset-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .preset-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: var(--r-pill); border: 1.5px solid var(--glacier); background: var(--white); font-size: 13px; font-weight: 700; color: var(--stone); cursor: pointer; transition: all 0.15s; }
+    .preset-btn:hover { background: var(--glacier); border-color: var(--sage); }
+    .preset-btn svg { width: 13px; height: 13px; color: var(--sage); }
+    .chat-messages { padding: 16px; min-height: 220px; max-height: 340px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: var(--white); }
+    .msg { display: flex; flex-direction: column; max-width: 82%; }
+    .msg.guest { align-self: flex-end; align-items: flex-end; }
+    .msg.hotel { align-self: flex-start; align-items: flex-start; }
+    .msg-bubble { padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
+    .msg.guest .msg-bubble { background: var(--sage); color: var(--white); border-bottom-right-radius: 3px; }
+    .msg.hotel .msg-bubble { background: var(--mist); color: var(--stone); border-bottom-left-radius: 3px; }
+    .msg-meta { font-size: 10px; color: var(--slate); margin-top: 3px; display: flex; align-items: center; gap: 4px; }
+    .msg-translated { font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 4px; font-style: italic; }
+    .msg.hotel .msg-translated { color: var(--slate); }
+    .msg-translated-badge { display: inline-flex; align-items: center; gap: 3px; font-size: 10px; font-weight: 700; color: var(--care-teal); }
+    .msg-translated-badge svg { width: 10px; height: 10px; }
+    .chat-input-area { padding: 12px 16px; border-top: 1px solid rgba(44,44,42,0.08); display: flex; gap: 10px; align-items: flex-end; background: var(--white); }
+    .chat-input { flex: 1; border: 1.5px solid var(--glacier); border-radius: 20px; padding: 10px 16px; font-size: 14px; resize: none; outline: none; line-height: 1.4; max-height: 100px; transition: border-color 0.2s; }
+    .chat-input:focus { border-color: var(--sage); }
+    .chat-send-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--sage); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s; }
+    .chat-send-btn:hover { background: #5a6f60; }
+    .chat-send-btn svg { width: 16px; height: 16px; color: var(--white); }
+    .chat-disclaimer { padding: 8px 16px 12px; font-size: 10px; color: var(--slate); text-align: center; background: var(--white); }
+
+
+    /* ═══════════════════════════════════════════════
+       PREMIUM CARD GLASSMORPHISM — Local Perks
+       Transparent, uniform content zones without explanatory cues
+    ════════════════════════════════════════════════ */
+    .premium-feature-card, .premium-side-card {
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      border: 1px solid rgba(44,44,42,0.10);
+    }
+    .premium-feature-card::before, .premium-side-card::before {
+      background:
+        linear-gradient(to top, rgba(44,44,42,0.46), rgba(44,44,42,0.18) 48%, rgba(44,44,42,0.06)),
+        linear-gradient(to bottom, rgba(44,44,42,0.08), rgba(44,44,42,0.0));
+    }
+    .premium-content {
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      inset: auto 12px 12px 12px;
+      min-height: 178px;
+      padding: 16px;
+      color: var(--stone);
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(44,44,42,0.12);
+      border-radius: 14px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      backdrop-filter: blur(8px) saturate(118%);
+      -webkit-backdrop-filter: blur(8px) saturate(118%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .premium-side-card .premium-content { padding: 16px; }
+    .premium-title, .premium-side-card .premium-title {
+      color: var(--stone);
+      font-size: 24px;
+      line-height: 1.08;
+      max-width: none;
+      min-height: 52px;
+      margin-bottom: 7px;
+      text-shadow: 0 1px 18px rgba(255,255,255,0.42);
+    }
+    .premium-copy, .premium-side-card .premium-copy {
+      color: rgba(44,44,42,0.82);
+      font-size: 12px;
+      line-height: 1.5;
+      max-width: none;
+      min-height: 54px;
+      margin-bottom: 12px;
+      text-shadow: 0 1px 16px rgba(255,255,255,0.35);
+    }
+    .premium-cta {
+      align-self: flex-start;
+      background: rgba(44,44,42,0.92);
+      color: var(--white);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      border: 1px solid rgba(255,255,255,0.20);
+    }
+    .premium-cta:hover { background: var(--sage); color: var(--white); }
+    .experience-badge {
+      background: rgba(255, 255, 255, 0.46);
+      border: 1px solid rgba(44,44,42,0.12);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .experience-badge.gold { background: rgba(200,146,58,0.78); color: var(--white); border-color: rgba(200,146,58,0.36); }
+    .experience-badge.sage { background: rgba(107,127,110,0.78); color: var(--white); border-color: rgba(107,127,110,0.36); }
+
+    /* ═══════════════════════════════════════════════
+       STAYCARE — positive care gateway
+    ════════════════════════════════════════════════ */
+    .experience-manager {
+      background:
+        radial-gradient(circle at 12% 12%, rgba(214,228,225,0.90), transparent 32%),
+        radial-gradient(circle at 88% 0%, rgba(200,146,58,0.14), transparent 28%),
+        linear-gradient(135deg, var(--white) 0%, #FBFAF7 100%);
+    }
+    .experience-card.care-gateway {
+      grid-template-columns: 1.05fr 0.95fr;
+      background: var(--white);
+      color: var(--stone);
+      border: 1px solid rgba(44,44,42,0.08);
+      border-radius: 20px;
+      box-shadow: var(--shadow-4);
+      overflow: hidden;
+    }
+    .care-gateway .experience-content {
+      color: var(--stone);
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .care-gateway .experience-kicker { color: var(--sage); margin-bottom: 12px; }
+    .care-gateway .experience-title {
+      color: var(--stone);
+      font-size: clamp(30px, 3vw, 42px);
+      margin-bottom: 12px;
+    }
+    .care-gateway .experience-copy {
+      color: var(--slate);
+      font-size: 14.5px;
+      line-height: 1.72;
+      max-width: 720px;
+      margin-bottom: 20px;
+    }
+    .care-route-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 4px 0 22px;
+    }
+    .care-route-item {
+      background: var(--mist);
+      border: 1px solid rgba(44,44,42,0.07);
+      border-radius: 12px;
+      padding: 12px;
+      min-height: 104px;
+    }
+    .care-route-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      background: var(--glacier);
+      color: var(--sage);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+    .care-route-icon svg { width: 15px; height: 15px; }
+    .care-route-title {
+      display: block;
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--stone);
+      margin-bottom: 4px;
+      line-height: 1.2;
+    }
+    .care-route-copy {
+      display: block;
+      font-size: 10.5px;
+      color: var(--slate);
+      line-height: 1.38;
+    }
+    .care-gateway .staycare-cta {
+      align-self: flex-start;
+      background: var(--sage);
+      color: var(--white);
+      box-shadow: 0 10px 24px rgba(107,127,110,0.24);
+    }
+    .care-gateway .staycare-cta:hover { background: #5a6f60; }
+
+    .care-gateway .experience-side {
+      min-height: 380px;
+      background:
+        linear-gradient(135deg, rgba(44,44,42,0.72), rgba(44,44,42,0.30)),
+        url('https://images.unsplash.com/photo-1609948543911-0b428dc58e4e?w=900&q=85&auto=format&fit=crop');
+      display: flex;
+      align-items: flex-end;
+      padding: 22px;
+    }
+    .care-listening-card {
+      width: 100%;
+      background: rgba(255,255,255,0.93);
+      border: 1px solid rgba(255,255,255,0.55);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: var(--shadow-3);
+      backdrop-filter: blur(14px);
+    }
+    .care-listening-label { color: var(--sage); margin-bottom: 8px; }
+    .care-listening-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      line-height: 1.12;
+      color: var(--stone);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .care-listening-copy {
+      color: var(--slate);
+      font-size: 12.5px;
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+    .care-mini-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .care-mini-chip {
+      background: var(--mist);
+      border-radius: 10px;
+      padding: 10px;
+      border: 1px solid rgba(44,44,42,0.06);
+    }
+    .care-mini-chip strong {
+      display: block;
+      color: var(--stone);
+      font-size: 11px;
+      line-height: 1.2;
+      margin-bottom: 3px;
+    }
+    .care-mini-chip span {
+      display: block;
+      color: var(--slate);
+      font-size: 10px;
+      line-height: 1.25;
+    }
+    .manager-hours-card {
+      position: static;
+      margin-top: 12px;
+      background: rgba(214,228,225,0.74);
+      border: 1px solid rgba(107,127,110,0.18);
+      box-shadow: none;
+    }
+
+    /* Staff-side quick replies */
+    .staff-quick-replies {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.10);
+    }
+    .staff-quick-label {
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.42);
+      margin-bottom: 8px;
+    }
+    .staff-quick-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .staff-quick-btn {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.88);
+      border-radius: var(--r-pill);
+      padding: 8px 11px;
+      font-size: 11.5px;
+      font-weight: 800;
+      transition: background 0.15s, color 0.15s, transform 0.15s;
+    }
+    .staff-quick-btn:hover {
+      background: var(--sage);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+
+
+    /* ═══════════════════════════════════════════════
+       GUEST SAFETY ALERT + BEFORE YOU GO
+       Shared official-source awareness for guests
+    ════════════════════════════════════════════════ */
+    .guest-safety-alert {
+      position: relative;
+      z-index: 3;
+      background: rgba(217,119,6,0.10);
+      border-top: 1px solid rgba(217,119,6,0.18);
+      border-bottom: 1px solid rgba(217,119,6,0.18);
+    }
+    .guest-safety-alert-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 14px 40px;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 14px;
+    }
+    .guest-safety-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(217,119,6,0.14);
+      color: var(--care-amber);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .guest-safety-icon svg { width: 18px; height: 18px; }
+    .guest-safety-label { color: var(--care-amber); margin-bottom: 2px; }
+    .guest-safety-title {
+      color: var(--stone);
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+    .guest-safety-copy {
+      color: var(--slate);
+      font-size: 12px;
+      line-height: 1.45;
+      margin-top: 3px;
+    }
+    .guest-safety-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      background: var(--care-amber);
+      color: var(--white);
+      border-radius: var(--r-btn);
+      padding: 10px 15px;
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+      box-shadow: var(--shadow-1);
+      transition: transform 0.16s ease, background 0.16s ease;
+    }
+    .guest-safety-cta:hover { transform: translateY(-1px); background: #bf6905; }
+    .guest-safety-cta svg { width: 13px; height: 13px; }
+
+    .before-go-card {
+      margin-top: 14px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(244,241,236,0.94));
+      border: 1px solid rgba(44,44,42,0.08);
+      border-left: 4px solid var(--sage);
+      border-radius: 16px;
+      box-shadow: var(--shadow-1);
+      padding: 16px;
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr) auto;
+      align-items: center;
+      gap: 16px;
+    }
+    .before-go-kicker { color: var(--sage); margin-bottom: 5px; }
+    .before-go-title {
+      font-family: var(--font-display);
+      color: var(--stone);
+      font-size: 22px;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+    .before-go-copy {
+      color: var(--slate);
+      font-size: 12.5px;
+      line-height: 1.55;
+      margin-top: 6px;
+    }
+    .before-go-checks {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .before-go-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      background: rgba(214,228,225,0.54);
+      border: 1px solid rgba(107,127,110,0.12);
+      border-radius: 12px;
+      padding: 10px;
+      min-height: 72px;
+    }
+    .before-go-check svg {
+      width: 15px;
+      height: 15px;
+      color: var(--sage);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .before-go-check span {
+      color: var(--stone);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.32;
+    }
+    .before-go-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      background: var(--stone);
+      color: var(--white);
+      border-radius: var(--r-btn);
+      padding: 12px 15px;
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+      transition: transform 0.16s ease, background 0.16s ease;
+    }
+    .before-go-cta:hover { transform: translateY(-1px); background: var(--sage); }
+    .before-go-cta svg { width: 13px; height: 13px; }
+
+    @media (max-width: 980px) {
+      .hero-status-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+      .hero-status-card { padding: 14px; gap: 10px; min-height: 100px; }
+      .hero-status-icon { width: 34px; height: 34px; border-radius: 9px; }
+      .hero-status-value { font-size: 14px; }
+      .hero-status-note { font-size: 11px; line-height: 1.35; }
+      .experience-card { grid-template-columns: 1fr; }
+      .care-route-grid { grid-template-columns: repeat(3, minmax(140px, 1fr)); }
+      .premium-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .premium-feature-card, .premium-side-card { grid-column: auto; min-height: 300px; }
+      .utilities-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .guest-safety-alert-inner { padding: 12px 40px; grid-template-columns: auto minmax(0,1fr) auto; }
+      .before-go-card { grid-template-columns: 1fr; align-items: stretch; }
+      .before-go-checks { grid-template-columns: repeat(3, minmax(0,1fr)); }
+      .before-go-cta { justify-self: start; }
+      .experience-side { min-height: 260px; }
+    }
+
+    @media (max-width: 390px) {
+      .hero-status-grid { grid-template-columns: repeat(3, 198px); }
+      .utilities-grid { gap: 7px; }
+      .utility-mini-card { min-height: 92px; padding: 9px 5px 8px; }
+      .wifi-title, .utility-action-title { font-size: 10.5px; }
+      .wifi-toggle { font-size: 9px; }
+      .care-route-item { flex-basis: 154px; }
+    }
+
+    @media (max-width: 720px) {
+      .container, .hub-header-inner, .hub-hero-inner { padding-left: 16px; padding-right: 16px; }
+      .hub-header { height: 68px; }
+      .hub-divider, .hotel-pill { display: none; }
+      .guest-identity-sub { display: none; }
+      .hub-hero { min-height: 530px; }
+      .hub-hero-inner { padding-bottom: 76px; }
+      .hero-status-panel { margin-top: -34px; overflow-x: auto; overflow-y: visible; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
+      .hero-status-grid {
+        max-width: none;
+        width: max-content;
+        grid-template-columns: repeat(3, 212px);
+        gap: 8px;
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      .hero-status-card { min-height: 112px; padding: 12px; gap: 9px; }
+      .hero-status-icon { width: 30px; height: 30px; border-radius: 8px; }
+      .hero-status-icon svg { width: 16px; height: 16px; }
+      .hero-status-label { font-size: 9px; letter-spacing: 0.11em; }
+      .hero-status-value { font-size: 12.5px; line-height: 1.25; }
+      .hero-status-note { font-size: 10.5px; line-height: 1.35; }
+      .section { padding: 52px 0; }
+      .section-head { display: block; }
+      .guest-safety-alert-inner { padding: 12px 16px; grid-template-columns: auto minmax(0,1fr); }
+      .guest-safety-cta { grid-column: 1 / -1; width: 100%; }
+      .before-go-card { padding: 14px; grid-template-columns: 1fr; gap: 12px; }
+      .before-go-checks { grid-template-columns: 1fr; }
+      .before-go-cta { width: 100%; }
+      .premium-content, .experience-content { padding: 26px; }
+      .care-route-grid {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding-bottom: 6px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+      }
+      .care-route-item {
+        flex: 0 0 168px;
+        min-height: 112px;
+        scroll-snap-align: start;
+      }
+      .care-route-title { font-size: 11.5px; }
+      .care-route-copy { font-size: 10px; line-height: 1.35; }
+      .care-route-icon { width: 28px; height: 28px; }
+      .premium-grid { grid-template-columns: 1fr; }
+      .utilities-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+      .premium-feature-card, .premium-side-card { min-height: 300px; }
+      .utility-mini-card { min-height: 96px; padding: 10px 6px 9px; border-radius: 15px; }
+      .utility-icon { width: 38px; height: 38px; border-radius: 12px; }
+      .utility-icon svg { width: 18px; height: 18px; }
+      .utility-micro-label { font-size: 7px; padding: 2px 5px; top: 6px; right: 6px; }
+      .wifi-title, .utility-action-title { font-size: 11.5px; }
+      .wifi-toggle { font-size: 9.5px; }
+      .wifi-expanded { position: static; width: 100%; margin-top: 12px; box-shadow: none; border-color: rgba(107,127,110,0.22); }
+      .emergency-strip { grid-template-columns: 1fr; }
+      .gear-modal-overlay { padding: 0; align-items: flex-end; }
+      .gear-modal { border-radius: 18px 18px 0 0; max-height: 94vh; }
+      .gear-modal-top { padding: 20px 18px; }
+      .gear-modal-body { padding: 18px; }
+      .chat-header { flex-wrap: wrap; }
+      .chat-lang-select { margin-left: 0; }
+      .hub-footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+  
+
+    /* ═══════════════════════════════════════════════
+       VERSION v0.9.7 — StayCare responsive lock
+       Base: v0.9.6-glass-regression-corrected
+       Scope: only fixes StayCare adaptation across viewport widths.
+       Local Perks glassmorphism and approved safety blocks remain unchanged.
+    ════════════════════════════════════════════════ */
+    .experience-card.care-gateway {
+      min-width: 0;
+    }
+    .care-gateway .experience-content,
+    .care-gateway .experience-side,
+    .care-listening-card,
+    .care-route-grid,
+    .care-route-item {
+      min-width: 0;
+    }
+    .care-route-grid {
+      grid-template-columns: repeat(3, minmax(128px, 1fr));
+      align-items: stretch;
+    }
+    .care-route-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    @media (max-width: 1120px) {
+      .experience-card.care-gateway {
+        grid-template-columns: 1fr !important;
+      }
+      .care-gateway .experience-content {
+        padding: 32px;
+      }
+      .care-route-grid {
+        grid-template-columns: repeat(3, minmax(150px, 1fr));
+      }
+      .care-gateway .experience-side {
+        min-height: 300px;
+        align-items: flex-end;
+      }
+      .care-listening-card {
+        max-width: 760px;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .care-gateway .experience-content {
+        padding: 26px;
+      }
+      .care-route-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .care-route-item {
+        min-height: 116px;
+        padding: 11px;
+      }
+      .care-route-title {
+        font-size: 11.5px;
+      }
+      .care-route-copy {
+        font-size: 10px;
+        line-height: 1.34;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .experience-card.care-gateway {
+        grid-template-columns: 1fr !important;
+        border-radius: 18px;
+      }
+      .care-gateway .experience-content {
+        padding: 24px 18px;
+      }
+      .care-route-grid {
+        display: flex !important;
+        gap: 10px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 2px 2px 10px;
+        margin: 2px -2px 22px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+      }
+      .care-route-grid::-webkit-scrollbar {
+        height: 5px;
+      }
+      .care-route-grid::-webkit-scrollbar-thumb {
+        background: rgba(107,127,110,0.32);
+        border-radius: var(--r-pill);
+      }
+      .care-route-item {
+        flex: 0 0 172px;
+        min-height: 116px;
+        scroll-snap-align: start;
+      }
+      .care-gateway .experience-side {
+        min-height: auto;
+        padding: 18px;
+        align-items: stretch;
+      }
+      .care-listening-card {
+        max-width: none;
+        padding: 16px;
+      }
+      .care-mini-row {
+        grid-template-columns: 1fr;
+      }
+      .care-gateway .staycare-cta {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .care-route-item {
+        flex-basis: 158px;
+        min-height: 112px;
+      }
+      .care-route-icon {
+        width: 27px;
+        height: 27px;
+      }
+      .care-listening-title {
+        font-size: 21px;
+      }
+    }
+    /* END VERSION v0.9.7 — StayCare responsive lock */
+
+    /* ═══════════════════════════════════════════════
+       VERSION v0.9.8 — Local Perks mobile layout
+       Base: v0.9.7-staycare-responsive-lock
+       Scope: only refines Guest Experience & Local Perks on smaller screens.
+       StayCare responsive lock, Safety Alert, Before You Go and EN/JA remain unchanged.
+    ════════════════════════════════════════════════ */
+    @media (max-width: 980px) and (min-width: 721px) {
+      .premium-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+      .premium-feature-card {
+        grid-column: 1 / -1;
+        min-height: 380px;
+      }
+      .premium-side-stack {
+        display: grid;
+        grid-column: 1 / -1;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+      .premium-side-card {
+        min-height: 330px;
+      }
+      .premium-content {
+        inset: auto 14px 14px 14px;
+        min-height: auto;
+        padding: 15px;
+      }
+      .premium-title,
+      .premium-side-card .premium-title {
+        min-height: 0;
+        font-size: 23px;
+      }
+      .premium-copy,
+      .premium-side-card .premium-copy {
+        min-height: 0;
+        font-size: 11.75px;
+        line-height: 1.45;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .premium-grid {
+        display: flex !important;
+        gap: 14px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        margin-left: -16px;
+        margin-right: -16px;
+        padding: 0 16px 14px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+      }
+      .premium-grid::-webkit-scrollbar {
+        height: 5px;
+      }
+      .premium-grid::-webkit-scrollbar-thumb {
+        background: rgba(107,127,110,0.32);
+        border-radius: var(--r-pill);
+      }
+      .premium-side-stack {
+        display: contents;
+      }
+      .premium-feature-card,
+      .premium-side-card {
+        flex: 0 0 clamp(272px, 82vw, 360px);
+        min-height: 412px;
+        scroll-snap-align: start;
+        border-radius: 18px;
+      }
+      .premium-content,
+      .premium-side-card .premium-content {
+        inset: auto 12px 12px 12px;
+        min-height: 0;
+        padding: 13px;
+        background: rgba(255, 255, 255, 0.44);
+        backdrop-filter: blur(8px) saturate(118%);
+        -webkit-backdrop-filter: blur(8px) saturate(118%);
+      }
+      .premium-badges {
+        gap: 5px;
+        margin-bottom: 8px;
+      }
+      .experience-badge {
+        padding: 4px 7px;
+        font-size: 8px;
+        letter-spacing: 0.045em;
+      }
+      .premium-title,
+      .premium-side-card .premium-title {
+        min-height: 0;
+        font-size: 22px;
+        line-height: 1.08;
+        margin-bottom: 6px;
+      }
+      .premium-copy,
+      .premium-side-card .premium-copy {
+        min-height: 0;
+        font-size: 11.25px;
+        line-height: 1.42;
+        margin-bottom: 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .premium-cta {
+        padding: 9px 11px;
+        font-size: 10.8px;
+        line-height: 1.25;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .premium-feature-card,
+      .premium-side-card {
+        flex-basis: min(84vw, 324px);
+        min-height: 398px;
+      }
+      .premium-copy,
+      .premium-side-card .premium-copy {
+        -webkit-line-clamp: 2;
+      }
+    }
+    /* END VERSION v0.9.8 — Local Perks mobile layout */
+
+</style>
+</head>
+<body data-sv-page="guesthub">
+  <div class="context-bar"><span class="ctx-accent" data-i18n="context_label">Canmore · Logged-in Guest Hub</span></div>
+
+  <header class="hub-header">
+    <div class="hub-header-inner">
+      <a href="index.html" class="logo" aria-label="SomaVio home">
+        <span class="logo-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </span>
+        SomaVio
+      </a>
+      <span class="hub-divider" aria-hidden="true"></span>
+      <div class="guest-identity">
+        <div class="guest-identity-main"><span data-i18n="guest_welcome">Welcome, Wilson</span><span aria-hidden="true">·</span><span data-i18n="guest_room">Room 304</span></div>
+        <div class="guest-identity-sub" data-i18n="guest_identity_sub">The Alpine Hotel · Private guest dashboard</div>
+      </div>
+      <div class="hub-header-actions">
+        <span class="hotel-pill">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          <span data-i18n="hotel_name">The Alpine Hotel</span>
+        </span>
+        <div class="lang-selector-wrap">
+          <button class="lang-toggle" id="lang-toggle" type="button" aria-label="Language selector" aria-expanded="false">
+            EN
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="lang-dropdown" id="lang-dropdown">
+            <button class="lang-option active" type="button" data-lang="en"><span class="lang-flag">🇬🇧</span><span data-i18n="language_english">English</span></button>
+            <button class="lang-option" type="button" data-lang="ja"><span class="lang-flag">🇯🇵</span><span data-i18n="language_japanese">日本語</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="hub-hero" aria-labelledby="hero-title">
+    <div class="hub-hero-inner">
+      <div class="hub-hero-label label-caps" data-i18n="hero_label">Guest Hub · StayCare ready</div>
+      <h1 class="hub-hero-title" id="hero-title" data-i18n-html="hero_title">A smoother stay starts with <em>the right next experience.</em></h1>
+      <p class="hub-hero-sub" data-i18n="hero_sub">Curated dining, spa, local experiences and hotel support — organized around what guests are most likely to use during the stay.</p>
+      <div class="hero-actions">
+        <a class="hero-primary" href="#premium-services" data-i18n="hero_primary_cta">Explore guest experiences →</a>
+        <button class="hero-secondary" type="button" data-open-modal="modal-staycare" data-i18n="hero_secondary_cta">Open StayCare support</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="hero-status-panel">
+    <div class="container hero-status-grid" aria-label="Essential stay information">
+      <article class="hero-status-card">
+        <div class="hero-status-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a7 7 0 0 0 0-14z"/></svg></div>
+        <div>
+          <div class="hero-status-label label-caps" data-i18n="hero_weather_label">Today in Canmore</div>
+          <div class="hero-status-value" data-i18n="hero_weather_value">8°C · Clear mountain morning</div>
+          <div class="hero-status-note" data-i18n="hero_weather_note">Good visibility for town walks and scenic dining plans.</div>
+        </div>
+      </article>
+      <article class="hero-status-card">
+        <div class="hero-status-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <div>
+          <div class="hero-status-label label-caps" data-i18n="hero_stay_label">Your stay window</div>
+          <div class="hero-status-value" data-i18n="hero_stay_value">Check-in 3:00 PM · Check-out 11:00 AM</div>
+          <div class="hero-status-note" data-i18n="hero_stay_note">Late checkout can be requested from Hotel Basics & Utilities.</div>
+        </div>
+      </article>
+      <article class="hero-status-card">
+        <div class="hero-status-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.11 9a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 2.81 1h3a2 2 0 0 1 2 1.72"/></svg></div>
+        <div>
+          <div class="hero-status-label label-caps" data-i18n="hero_support_label">Front desk</div>
+          <div class="hero-status-value" data-i18n="hero_support_value">Ext. 0 · StayCare ready</div>
+          <div class="hero-status-note" data-i18n="hero_support_note">Use Ext. 999 for urgent overnight hotel support.</div>
+        </div>
+      </article>
+    </div>
+  </div>
+
+
+  <section class="guest-safety-alert" aria-label="Current safety advisory">
+    <div class="guest-safety-alert-inner">
+      <div class="guest-safety-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div>
+        <div class="guest-safety-label label-caps" data-i18n="guest_safety_label">Wildlife Alert · Official check recommended</div>
+        <div class="guest-safety-title" data-i18n="guest_safety_title">Grizzly activity reported near Grassi Lakes Trail.</div>
+        <p class="guest-safety-copy"><span data-i18n="guest_safety_copy">Before heading out, check current trail, wildlife, weather and access conditions from official sources.</span> <strong data-i18n="guest_safety_source">Source: Parks Canada / Alberta Parks</strong></p>
+      </div>
+      <a class="guest-safety-cta" href="safety.html?from=guesthub" data-i18n="guest_safety_cta">View safety checks →</a>
+    </div>
+  </section>
+
+  <main>
+        <section class="section section-white section-compact" id="hotel-basics" aria-labelledby="utilities-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker label-caps" data-i18n="utilities_kicker">Compact hotel support</div>
+            <h2 class="section-title" id="utilities-title" data-i18n="utilities_title">Hotel Basics & Utilities</h2>
+            <p class="section-sub" data-i18n="utilities_sub">Essential needs stay available without competing with premium experiences. Expand Wi‑Fi details or send a routine request in one click.</p>
+          </div>
+        </div>
+
+        <div class="utilities-grid" aria-label="Hotel utility shortcuts">
+          <button class="utility-mini-card wifi-card" type="button" data-wifi-card aria-expanded="false">
+            <span class="utility-card-head">
+              <span class="utility-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" x2="12.01" y1="20" y2="20"/></svg></span>
+              <span class="utility-micro-label" data-i18n="wifi_network_label">Network</span>
+            </span>
+            <span>
+              <span class="wifi-title" data-i18n="wifi_title">Wi‑Fi access</span>
+              <span class="wifi-note" data-i18n="wifi_note">Tap to reveal the guest network, password and a direct support trigger if your device will not connect.</span>
+            </span>
+            <span class="wifi-toggle"><span data-i18n="wifi_expand_label">Show connection details</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+            <span class="wifi-expanded">
+              <span class="credential-box">
+                <span class="credential-row"><span class="credential-label" data-i18n="wifi_network_label">Network</span><span class="credential-value">AlpineHotel_Guest</span></span>
+                <span class="credential-row"><span class="credential-label" data-i18n="wifi_password_label">Password</span><span class="credential-value">Rockies2026!</span></span>
+              </span>
+              <span class="wifi-support-copy"><span data-i18n="wifi_support_intro">Having trouble configuring?</span> <span class="wifi-support-link" role="button" tabindex="0" data-wifi-support data-i18n="wifi_support_link">Click here to notify the front desk.</span></span>
+            </span>
+          </button>
+
+          <button class="utility-mini-card utility-action-card" type="button" data-service="bedding">
+            <span class="utility-card-head">
+              <span class="utility-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 18v-7a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v7"/><path d="M2 18h20"/><path d="M6 11h4"/><path d="M14 11h4"/></svg></span>
+              <span class="utility-micro-label" data-i18n="utility_action">Send request →</span>
+            </span>
+            <span><span class="utility-action-title" data-i18n="service_towels_title">Request Extra Towels</span><span class="utility-action-copy" data-i18n="service_towels_desc">Ask housekeeping for towels, pillows or bedding.</span></span>
+            <span class="utility-action-link" data-i18n="utility_action">Send request →</span>
+          </button>
+
+          <button class="utility-mini-card utility-action-card" type="button" data-service="cleaning">
+            <span class="utility-card-head">
+              <span class="utility-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18"/><path d="M8 6v14"/><path d="M16 6v14"/><path d="M5 20h14"/><path d="M10 3h4"/></svg></span>
+              <span class="utility-micro-label" data-i18n="utility_action">Send request →</span>
+            </span>
+            <span><span class="utility-action-title" data-i18n="service_cleaning_title">Room Cleaning</span><span class="utility-action-copy" data-i18n="service_cleaning_desc">Request housekeeping or a preferred cleaning window.</span></span>
+            <span class="utility-action-link" data-i18n="utility_action">Send request →</span>
+          </button>
+
+          <button class="utility-mini-card utility-action-card" type="button" data-service="checkout">
+            <span class="utility-card-head">
+              <span class="utility-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+              <span class="utility-micro-label" data-i18n="hero_stay_label">Your stay window</span>
+            </span>
+            <span><span class="utility-action-title" data-i18n="service_checkout_title">Late Checkout Inquiry</span><span class="utility-action-copy" data-i18n="service_checkout_desc">Check availability for a later departure.</span></span>
+            <span class="utility-action-link" data-i18n="utility_action">Send request →</span>
+          </button>
+        </div>
+
+        <aside class="before-go-card" aria-labelledby="before-go-title">
+          <div>
+            <div class="before-go-kicker label-caps" data-i18n="before_go_kicker">Before you go</div>
+            <h3 class="before-go-title" id="before-go-title" data-i18n="before_go_title">A 30-second confidence check before leaving the hotel.</h3>
+            <p class="before-go-copy" data-i18n="before_go_copy">Use the safety page for official links and guest-ready reminders before trails, scenic drives or local activities.</p>
+          </div>
+          <div class="before-go-checks" aria-label="Before you go checklist">
+            <div class="before-go-check">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              <span data-i18n="before_go_passes">Check if your destination needs passes or permits.</span>
+            </div>
+            <div class="before-go-check">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              <span data-i18n="before_go_drones">Review drone restrictions before flying or filming.</span>
+            </div>
+            <div class="before-go-check">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              <span data-i18n="before_go_alerts">Check active alerts for the area you are visiting.</span>
+            </div>
+          </div>
+          <a class="before-go-cta" href="safety.html?from=guesthub" data-i18n="before_go_cta">Open Safety Hub →</a>
+        </aside>
+
+      </div>
+    </section>
+
+<section class="section section-mist" id="premium-services" aria-labelledby="premium-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker label-caps" data-i18n="premium_kicker">Experience showcase</div>
+            <h2 class="section-title" id="premium-title" data-i18n="premium_title">Guest Experience & Local Perks</h2>
+            <p class="section-sub" data-i18n="premium_sub">Reserve the best parts of your stay first — dinner, spa recovery and trusted local experiences are presented up front for fast, high-confidence booking.</p>
+          </div>
+        </div>
+
+        <div class="premium-grid">
+          <article class="premium-feature-card">
+            <img class="premium-img" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1100&q=86&auto=format&fit=crop" alt="Elegant hotel dining room with warm lighting" loading="lazy" />
+            <div class="premium-content">
+              <div class="premium-badges">
+                <span class="experience-badge gold" data-i18n="dinner_badge_discount">Room-key dining benefit</span>
+                <span class="experience-badge" data-i18n="dinner_badge_editorial">Tonight's pick</span>
+              </div>
+              <h3 class="premium-title" data-i18n="dinner_title">Reserve an Exclusive Dinner</h3>
+              <p class="premium-copy" data-i18n="dinner_copy">Settle into a mountain evening with a table held for hotel guests, seasonal Canadian dishes and a calm walk back to your room.</p>
+              <button class="premium-cta" type="button" data-premium-request="dinner" data-i18n="dinner_cta">Reserve an Exclusive Dinner →</button>
+            </div>
+          </article>
+
+          <div class="premium-side-stack">
+            <article class="premium-side-card">
+              <img class="premium-img" src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=900&q=86&auto=format&fit=crop" alt="Premium spa room with towels and soft light" loading="lazy" />
+              <div class="premium-content">
+                <div class="premium-badges">
+                  <span class="experience-badge sage" data-i18n="spa_badge_discount">15% guest advantage</span>
+                </div>
+                <h3 class="premium-title" data-i18n="spa_title">Sanctuary Spa Session</h3>
+                <p class="premium-copy" data-i18n="spa_copy">A recovery window designed for tired legs, dry mountain air and a slower evening after the trail.</p>
+                <button class="premium-cta" type="button" data-premium-request="spa" data-i18n="spa_cta">Book Sanctuary Spa Session →</button>
+              </div>
+            </article>
+
+            <article class="premium-side-card">
+              <img class="premium-img" src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=900&q=86&auto=format&fit=crop" alt="Guided hiking group in the Canadian Rockies" loading="lazy" />
+              <div class="premium-content">
+                <div class="premium-badges">
+                  <span class="experience-badge gold" data-i18n="guide_badge_discount">Guest trail advantage</span>
+                </div>
+                <h3 class="premium-title" data-i18n="guide_title">Guided Rockies Experience</h3>
+                <p class="premium-copy" data-i18n="guide_copy">A local orientation option for guests who want a safer, more confident mountain day.</p>
+                <button class="premium-cta" type="button" data-premium-request="guide" data-i18n="guide_cta">Request Guided Experience →</button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+<section class="section experience-manager" aria-labelledby="experience-title">
+      <div class="container">
+        <div class="experience-card care-gateway">
+          <div class="experience-content">
+            <div class="experience-kicker label-caps" data-i18n="experience_kicker">StayCare</div>
+            <h2 class="experience-title" id="experience-title" data-i18n="experience_title">Here to make your stay feel cared for.</h2>
+            <p class="experience-copy" data-i18n="experience_copy">For anything beyond the quick hotel basics above — comfort, timing, language support, special circumstances or a small detail you would like adjusted — StayCare gives you a calm way to reach the right team and feel heard.</p>
+
+            <div class="care-route-grid" aria-label="How StayCare helps">
+              <div class="care-route-item">
+                <span class="care-route-icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
+                </span>
+                <span class="care-route-title" data-i18n="care_route_1_title">Share once</span>
+                <span class="care-route-copy" data-i18n="care_route_1_copy">Tell us what would make your stay smoother.</span>
+              </div>
+              <div class="care-route-item">
+                <span class="care-route-icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v20"/><path d="M5 7h14"/><path d="M7 12h10"/><path d="M9 17h6"/></svg>
+                </span>
+                <span class="care-route-title" data-i18n="care_route_2_title">Routed calmly</span>
+                <span class="care-route-copy" data-i18n="care_route_2_copy">The right hotel team sees the request clearly.</span>
+              </div>
+              <div class="care-route-item">
+                <span class="care-route-icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 6 9 17l-5-5"/></svg>
+                </span>
+                <span class="care-route-title" data-i18n="care_route_3_title">Followed up</span>
+                <span class="care-route-copy" data-i18n="care_route_3_copy">StayCare helps keep the conversation visible.</span>
+              </div>
+            </div>
+
+            <button class="staycare-cta" type="button" data-open-modal="modal-staycare" data-i18n="experience_button">Talk to StayCare 💡</button>
+          </div>
+          <div class="experience-side">
+            <div class="care-listening-card">
+              <div class="care-listening-label label-caps" data-i18n="care_listening_label">Guest care channel</div>
+              <h3 class="care-listening-title" data-i18n="care_listening_title">A simple way to be heard, without waiting at the desk.</h3>
+              <p class="care-listening-copy" data-i18n="care_listening_copy">Use it for comfort preferences, timing help, language support, accessibility needs, special requests or anything that would make the rest of your stay better.</p>
+              <div class="care-mini-row">
+                <div class="care-mini-chip">
+                  <strong data-i18n="care_chip_1_title">Not only problems</strong>
+                  <span data-i18n="care_chip_1_copy">Also useful for preferences and special help.</span>
+                </div>
+                <div class="care-mini-chip">
+                  <strong data-i18n="care_chip_2_title">Guest-first</strong>
+                  <span data-i18n="care_chip_2_copy">Designed to reduce friction before it grows.</span>
+                </div>
+              </div>
+              <div class="manager-hours-card">
+                <div class="manager-hours-label label-caps" data-i18n="manager_hours_label">Executive care hours</div>
+                <div class="manager-hours-text" data-i18n="manager_hours_value">8:00 AM – 8:00 PM</div>
+                <div class="manager-hours-sub" data-i18n="manager_hours_sub">After hours, StayCare records your request or alerts the on-call hotel team when needed.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    </main>
+
+  <footer class="hub-footer">
+    <div class="container hub-footer-inner">
+      <div class="footer-brand">
+        <span class="logo-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
+        SomaVio
+      </div>
+      <p class="footer-note" data-i18n="footer_note">Private guest dashboard for hotel support, local orientation and stay-moment recovery. SomaVio is not an emergency service; call 911 for emergencies.</p>
+    </div>
+  </footer>
+
+  <div class="gear-modal-overlay" id="modal-staycare" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="staycare-modal-title">
+    <div class="gear-modal" role="document">
+      <div class="gear-modal-top">
+        <div>
+          <h2 class="gear-modal-title" id="staycare-modal-title" data-i18n="modal_title">StayCare Concierge</h2>
+          <p class="gear-modal-sub" data-i18n="modal_sub">Share what would make your stay smoother. The hotel team sees your request in English while you can communicate in Japanese or English.</p>
+        </div>
+        <button class="gear-modal-close" type="button" data-close-modal="modal-staycare" aria-label="Close StayCare modal">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="gear-modal-body">
+        <section class="care-story" aria-labelledby="care-story-title">
+          <div class="care-story-label label-caps" id="care-story-title" data-i18n="modal_story_label">Executive care promise</div>
+          <p class="care-story-text" data-i18n-html="modal_story_text">Our General Manager is on-site for executive care from <strong>8:00 AM to 8:00 PM</strong>. Outside these hours, StayCare keeps your message organized and can alert our <strong>24/7 on-call staff</strong> when immediate hotel support is needed.</p>
+        </section>
+
+        <div class="emergency-strip" aria-label="Emergency actions">
+          <button class="emergency-action" type="button" data-night-staff>
+            <span class="emergency-action-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.11 9a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 2.81 1h3a2 2 0 0 1 2 1.72"/></svg></span>
+            <span><span class="emergency-action-title" data-i18n="night_staff_title">Call 24/7 Night Staff</span><span class="emergency-action-sub" data-i18n="night_staff_sub">Use room phone Ext. 999 for immediate hotel support.</span></span>
+          </button>
+          <a class="emergency-action secondary" href="tel:911">
+            <span class="emergency-action-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+            <span><span class="emergency-action-title" data-i18n="emergency_services_title">Local Emergency Services</span><span class="emergency-action-sub" data-i18n="emergency_services_sub">Call 911 immediately for police, fire or medical emergencies.</span></span>
+          </a>
+        </div>
+
+        <div class="view-toggle">
+          <span class="view-toggle-label" data-i18n="demo_view_label">Demo view:</span>
+          <button class="view-toggle-btn active" type="button" onclick="switchView('guest',this)" data-i18n="guest_view_btn">👤 Guest View</button>
+          <button class="view-toggle-btn" type="button" onclick="switchView('staff',this)" data-i18n="staff_view_btn">🏨 Staff View</button>
+        </div>
+
+        <div class="hotel-staff-view" id="staff-view">
+          <div class="staff-view-label" data-i18n="staff_dashboard_label">🏨 Hotel Staff Dashboard — Messages received in English</div>
+          <div id="staff-messages">
+            <div class="staff-msg">
+              <div class="staff-msg-room" data-i18n="staff_seed_room">Room 304 · Wilson · 🇯🇵 Japanese</div>
+              <div class="staff-msg-text" data-i18n="staff_seed_text">Guest asks: "Could you please bring extra towels and pillows to my room?"</div>
+              <div class="staff-msg-original" data-i18n="staff_seed_original">Original (JA): 「タオルと枕を追加でお部屋に持ってきていただけますか？」</div>
+              <div class="staff-reply-area">
+                <input class="staff-reply-input" data-i18n-placeholder="staff_reply_placeholder" placeholder="Reply in English — guest will see it in Japanese..." id="staff-reply-1" />
+                <button class="staff-reply-btn" type="button" onclick="staffReply('staff-reply-1','extra_towels')" data-i18n="staff_send_btn">Send →</button>
+              </div>
+            </div>
+          </div>
+          <div class="staff-quick-replies" aria-label="Prepared staff responses">
+            <div class="staff-quick-label" data-i18n="staff_quick_label">Prepared replies — saves front desk time</div>
+            <div class="staff-quick-grid">
+              <button class="staff-quick-btn" type="button" onclick="staffQuickReply('request_handled')" data-i18n="staff_quick_handled">Request is being handled</button>
+              <button class="staff-quick-btn" type="button" onclick="staffQuickReply('housekeeping_notified')" data-i18n="staff_quick_housekeeping">Housekeeping notified</button>
+              <button class="staff-quick-btn" type="button" onclick="staffQuickReply('towels_on_way')" data-i18n="staff_quick_towels">Towels on the way</button>
+              <button class="staff-quick-btn" type="button" onclick="staffQuickReply('front_desk_call')" data-i18n="staff_quick_callback">Front desk will call</button>
+              <button class="staff-quick-btn" type="button" onclick="staffQuickReply('manager_check')" data-i18n="staff_quick_manager">Checking with manager</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="guest-view">
+          <div class="chat-section">
+            <div class="chat-header">
+              <div class="chat-header-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              </div>
+              <div class="chat-header-info">
+                <div class="chat-header-title" data-i18n="chat_hotel_title">The Alpine Hotel</div>
+                <div class="chat-header-sub" data-i18n="chat_hotel_sub">Concierge team · replies in your language</div>
+              </div>
+              <select class="chat-lang-select" id="chat-lang" onchange="changeChatLang(this.value)" aria-label="Chat language">
+                <option value="en">🇬🇧 English</option>
+                <option value="ja" selected>🇯🇵 日本語</option>
+              </select>
+            </div>
+
+            <div class="chat-presets">
+              <div class="chat-presets-label" id="presets-label">Quick requests / クイックリクエスト</div>
+              <div class="chat-preset-grid" id="preset-grid">
+                <button class="preset-btn" type="button" onclick="sendPreset('bedding')">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>
+                  <span id="preset-bedding">🛏 Extra bedding</span>
+                </button>
+                <button class="preset-btn" type="button" onclick="sendPreset('cleaning')">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>
+                  <span id="preset-cleaning">🧹 Room cleaning</span>
+                </button>
+                <button class="preset-btn" type="button" onclick="sendPreset('checkout')">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                  <span id="preset-checkout">🗓 Check-out time</span>
+                </button>
+                <button class="preset-btn" type="button" onclick="sendPreset('callback')">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2"/></svg>
+                  <span id="preset-callback">☎️ Front desk callback</span>
+                </button>
+                <button class="preset-btn" type="button" onclick="sendPreset('wifi')">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" x2="12.01" y1="20" y2="20"/></svg>
+                  <span id="preset-wifi">📶 WiFi password</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="chat-messages" id="chat-messages">
+              <div class="msg hotel">
+                <div class="msg-bubble" id="welcome-msg">ご滞在へようこそ！何かお手伝いできることはありますか？</div>
+                <div class="msg-meta"><span class="msg-translated-badge"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg> Translated for you</span> · just now</div>
+                <div class="msg-translated">Hotel sent: "Welcome! How can we help you today?"</div>
+              </div>
+            </div>
+
+            <div class="chat-input-area">
+              <textarea class="chat-input" id="chat-input" rows="1" placeholder="Type your message..." onkeydown="handleChatKey(event)"></textarea>
+              <button class="chat-send-btn" type="button" onclick="sendGuestMessage()" aria-label="Send message">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+            </div>
+            <div class="chat-disclaimer" id="chat-disclaimer">Messages are translated automatically · Hotel receives your message in English</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function normalizePageLang(value) {
+      const lang = String(value || 'en').toLowerCase().split('-')[0];
+      return lang === 'ja' ? 'ja' : 'en';
+    }
+
+    document.addEventListener('somavio:languagechange', (event) => {
+      changeChatLang(normalizePageLang(event.detail?.lang));
+    });
+
+    const CHAT_STRINGS = {
+      en: {
+        welcome: "Welcome to The Alpine Hotel! How can we help you today?",
+        placeholder: "Type your message...",
+        disclaimer: "Messages are translated automatically · Hotel receives your message in English",
+        presets_label: "Quick requests",
+        preset_bedding: "🛏 Extra bedding",
+        preset_cleaning: "🧹 Room cleaning",
+        preset_checkout: "🗓 Check-out time",
+        preset_callback: "☎️ Front desk callback",
+        preset_wifi: "📶 WiFi password",
+        msg_bedding: "Could you please bring extra towels and pillows to my room?",
+        msg_cleaning: "Could you please clean my room this afternoon?",
+        msg_checkout: "What time is check-out? Is late check-out available?",
+        msg_callback: "Could the front desk please call my room when someone is available?",
+        msg_wifi: "What is the WiFi password for my room? I am having trouble connecting my device.",
+        msg_dinner: "I would like to reserve an exclusive dinner for hotel guests. Could you please help me check availability?",
+        msg_spa: "I would like to book a Sanctuary Spa Session. Could you please help me check available times?",
+        msg_guide: "I am interested in a guided Rockies experience. Could you please help me with options and availability?",
+        reply_bedding: "Of course! We'll bring extra towels and pillows to your room within 15 minutes.",
+        reply_cleaning: "Absolutely! We'll have housekeeping visit your room between 2–4 PM.",
+        reply_checkout: "Check-out is at 11:00 AM. Late check-out until 1 PM is available for CAD $30. Just let us know!",
+        reply_callback: "Of course. The front desk will call Room 304 shortly.",
+        reply_wifi: "Your WiFi network is AlpineHotel_Guest. The password is Rockies2026! If you still have trouble, the front desk can help you configure the device.",
+        reply_dinner: "We would be happy to help. The concierge team will check dinner availability and reply shortly.",
+        reply_spa: "We would be happy to help. The spa team will check available recovery windows and reply shortly.",
+        reply_guide: "We would be happy to help. The concierge team will check guided experience options and reply shortly.",
+        reply_request_handled: "Thank you — your request is being handled now.",
+        reply_housekeeping_notified: "Housekeeping has been notified and will assist shortly.",
+        reply_towels_on_way: "Extra towels are on the way to your room.",
+        reply_front_desk_call: "The front desk will call your room shortly.",
+        reply_manager_check: "We are checking this with the manager and will follow up shortly.",
+        general_reply: "Thank you for your message! Our concierge team will get back to you shortly.",
+        translated_for_you: "Translated for you",
+        hotel_sent: "Hotel sent:",
+        you_sent: "You sent (EN):",
+        you: "You",
+        just_now: "just now"
+      },
+      ja: {
+        welcome: "ザ・アルパインホテルへようこそ！何かお手伝いできることはありますか？",
+        placeholder: "メッセージを入力してください...",
+        disclaimer: "メッセージは自動翻訳されます · ホテルには英語で届きます",
+        presets_label: "クイックリクエスト",
+        preset_bedding: "🛏 寝具の追加",
+        preset_cleaning: "🧹 お部屋の清掃",
+        preset_checkout: "🗓 チェックアウト時間",
+        preset_callback: "☎️ フロント折り返し",
+        preset_wifi: "📶 WiFiパスワード",
+        msg_bedding: "タオルと枕を追加でお部屋に持ってきていただけますか？",
+        msg_cleaning: "本日の午後にお部屋の清掃をお願いできますか？",
+        msg_checkout: "チェックアウトは何時ですか？レイトチェックアウトは可能ですか？",
+        msg_callback: "フロントからお部屋に折り返し電話をいただけますか？",
+        msg_wifi: "部屋のWiFiパスワードを教えていただけますか？デバイスの接続で困っています。",
+        msg_dinner: "宿泊者向けの特別ディナーを予約したいです。空き状況の確認をお願いできますか？",
+        msg_spa: "Sanctuary Spa Sessionを予約したいです。空き時間の確認をお願いできますか？",
+        msg_guide: "ロッキー山脈のガイド付き体験に興味があります。選択肢と空き状況を教えていただけますか？",
+        reply_bedding: "もちろんです。15分以内にタオルと枕をお部屋へお持ちします。",
+        reply_cleaning: "承知しました。午後2時から4時の間にハウスキーピングがお部屋へ伺います。",
+        reply_checkout: "チェックアウトは午前11時です。午後1時までのレイトチェックアウトはCAD 30ドルでご利用いただけます。",
+        reply_callback: "承知しました。フロントデスクから304号室へまもなくお電話いたします。",
+        reply_wifi: "WiFiネットワークは AlpineHotel_Guest、パスワードは Rockies2026! です。接続できない場合はフロントが設定をお手伝いします。",
+        reply_dinner: "喜んでお手伝いします。コンシェルジュチームがディナーの空き状況を確認し、まもなく返信します。",
+        reply_spa: "喜んでお手伝いします。スパチームが空き時間を確認し、まもなく返信します。",
+        reply_guide: "喜んでお手伝いします。コンシェルジュチームがガイド付き体験の選択肢を確認し、まもなく返信します。",
+        reply_request_handled: "ありがとうございます。ご依頼は現在対応中です。",
+        reply_housekeeping_notified: "ハウスキーピングに連絡しました。まもなく対応いたします。",
+        reply_towels_on_way: "追加のタオルをお部屋へお持ちしています。",
+        reply_front_desk_call: "フロントデスクからまもなくお部屋へお電話いたします。",
+        reply_manager_check: "マネージャーに確認し、まもなくご連絡いたします。",
+        general_reply: "メッセージありがとうございます。コンシェルジュチームがすぐにご連絡いたします。",
+        translated_for_you: "翻訳済み",
+        hotel_sent: "ホテル送信:",
+        you_sent: "英語訳:",
+        you: "あなた",
+        just_now: "たった今"
+      }
+    };
+
+    const HOTEL_REPLIES_EN = {
+      extra_towels: "Of course! We'll bring extra towels and pillows to your room within 15 minutes.",
+      bedding: "Of course! We'll bring extra towels and pillows to your room within 15 minutes.",
+      cleaning: "Absolutely! We'll have housekeeping visit your room between 2–4 PM.",
+      checkout: "Check-out is at 11:00 AM. Late check-out until 1 PM is available for CAD $30. Just let us know!",
+      callback: "Of course. The front desk will call Room 304 shortly.",
+      wifi: "Your WiFi network is AlpineHotel_Guest. The password is Rockies2026!",
+      dinner: "We would be happy to help. The concierge team will check dinner availability and reply shortly.",
+      spa: "We would be happy to help. The spa team will check available recovery windows and reply shortly.",
+      guide: "We would be happy to help. The concierge team will check guided experience options and reply shortly.",
+      request_handled: "Thank you — your request is being handled now.",
+      housekeeping_notified: "Housekeeping has been notified and will assist shortly.",
+      towels_on_way: "Extra towels are on the way to your room.",
+      front_desk_call: "The front desk will call your room shortly.",
+      manager_check: "We are checking this with the manager and will follow up shortly."
+    };
+
+    let currentChatLang = 'ja';
+    let msgCount = 0;
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
+    }
+
+    function t(key){ return (CHAT_STRINGS[currentChatLang]||CHAT_STRINGS.en)[key] || CHAT_STRINGS.en[key] || ''; }
+
+    function changeChatLang(lang){
+      currentChatLang = normalizePageLang(lang);
+      const selector = document.getElementById('chat-lang');
+      if (selector && selector.value !== currentChatLang) selector.value = currentChatLang;
+      updateChatUI();
+    }
+
+    function updateChatUI(){
+      const s = CHAT_STRINGS[currentChatLang] || CHAT_STRINGS.en;
+      document.getElementById('presets-label').textContent = s.presets_label || 'Quick requests';
+      document.getElementById('preset-bedding').textContent = s.preset_bedding;
+      document.getElementById('preset-cleaning').textContent = s.preset_cleaning;
+      document.getElementById('preset-checkout').textContent = s.preset_checkout;
+      document.getElementById('preset-callback').textContent = s.preset_callback;
+      document.getElementById('preset-wifi').textContent = s.preset_wifi;
+      document.getElementById('chat-input').placeholder = s.placeholder;
+      document.getElementById('chat-disclaimer').textContent = s.disclaimer;
+      document.getElementById('welcome-msg').textContent = s.welcome;
+    }
+
+    function sendPreset(type){
+      const s = CHAT_STRINGS[currentChatLang] || CHAT_STRINGS.en;
+      const enStrings = CHAT_STRINGS.en;
+      const guestMsg = s['msg_'+type];
+      const enMsg = enStrings['msg_'+type];
+      const replyKey = type;
+      const hotelReplyEN = HOTEL_REPLIES_EN[replyKey] || "Thank you for your request! Our team will assist you shortly.";
+      const hotelReplyLang = s['reply_'+type] || hotelReplyEN;
+      if(!guestMsg) return;
+      appendGuestMsg(guestMsg, enMsg);
+      setTimeout(()=>{ appendHotelMsg(hotelReplyLang, hotelReplyEN); }, 700);
+      addStaffMessage(enMsg, guestMsg, hotelReplyEN);
+    }
+
+    function sendGuestMessage(){
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if(!text) return;
+      const enVersion = currentChatLang === 'en' ? text : '[Auto-translated to English]';
+      appendGuestMsg(text, enVersion);
+      input.value='';
+      let replyEN = "Thank you for your message! Our concierge team will get back to you shortly.";
+      setTimeout(()=>{
+        const s = CHAT_STRINGS[currentChatLang]||CHAT_STRINGS.en;
+        appendHotelMsg(s.general_reply || replyEN, replyEN);
+      }, 800);
+      addStaffMessage(enVersion, text, replyEN);
+    }
+
+    function appendGuestMsg(text, enText){
+      msgCount++;
+      const s = CHAT_STRINGS[currentChatLang]||CHAT_STRINGS.en;
+      const div = document.createElement('div');
+      div.className='msg guest';
+      div.innerHTML=`
+        <div class="msg-bubble">${escapeHTML(text)}</div>
+        <div class="msg-meta">${escapeHTML(s.you)} · ${escapeHTML(s.just_now)}</div>
+        <div class="msg-translated">${escapeHTML(s.you_sent||'You sent (EN):')} &quot;${escapeHTML(enText)}&quot;</div>`;
+      const box=document.getElementById('chat-messages');
+      box.appendChild(div);
+      box.scrollTop=box.scrollHeight;
+    }
+
+    function appendHotelMsg(text, enText){
+      const s = CHAT_STRINGS[currentChatLang]||CHAT_STRINGS.en;
+      const div=document.createElement('div');
+      div.className='msg hotel';
+      div.innerHTML=`
+        <div class="msg-bubble">${escapeHTML(text)}</div>
+        <div class="msg-meta"><span class="msg-translated-badge"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>${escapeHTML(s.translated_for_you||'Translated for you')}</span> · ${escapeHTML(s.just_now)}</div>
+        <div class="msg-translated">${escapeHTML(s.hotel_sent||'Hotel sent:')} &quot;${escapeHTML(enText)}&quot;</div>`;
+      const box=document.getElementById('chat-messages');
+      box.appendChild(div);
+      box.scrollTop=box.scrollHeight;
+    }
+
+    function addStaffMessage(enMsg, originalMsg, replyEN){
+      const existing=document.getElementById('staff-messages');
+      const div=document.createElement('div');
+      div.className='staff-msg';
+      div.innerHTML=`
+        <div class="staff-msg-room">Room 304 · Wilson · 🌐 ${escapeHTML(currentChatLang.toUpperCase())}</div>
+        <div class="staff-msg-text">Guest asks: &quot;${escapeHTML(enMsg)}&quot;</div>
+        <div class="staff-msg-original">Original (${escapeHTML(currentChatLang.toUpperCase())}): &quot;${escapeHTML(originalMsg)}&quot;</div>`;
+      existing.prepend(div);
+    }
+
+
+    function staffQuickReply(replyKey){
+      const text = HOTEL_REPLIES_EN[replyKey] || HOTEL_REPLIES_EN.request_handled;
+      const s = CHAT_STRINGS[currentChatLang] || CHAT_STRINGS.en;
+      const replyLang = s['reply_' + replyKey] || text;
+      appendHotelMsg(replyLang, text);
+      switchView('guest', document.querySelector('.view-toggle-btn'));
+    }
+
+    function staffReply(inputId, replyKey){
+      const input=document.getElementById(inputId);
+      const text=input.value.trim()||HOTEL_REPLIES_EN[replyKey];
+      const s=CHAT_STRINGS[currentChatLang]||CHAT_STRINGS.en;
+      const replyLang=s['reply_'+replyKey]||text;
+      appendHotelMsg(replyLang, text);
+      input.value='';
+      switchView('guest', document.querySelector('.view-toggle-btn'));
+    }
+
+    function switchView(view, btn){
+      document.querySelectorAll('.view-toggle-btn').forEach(b=>b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      document.getElementById('guest-view').style.display = view==='guest'?'block':'none';
+      document.getElementById('staff-view').classList.toggle('visible', view==='staff');
+    }
+
+    function handleChatKey(e){
+      if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendGuestMessage();}
+    }
+
+    function openStayCareModal() {
+      const modal = document.getElementById('modal-staycare');
+      if (!modal) return;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('chat-input')?.focus(), 120);
+    }
+
+    function closeStayCareModal() {
+      const modal = document.getElementById('modal-staycare');
+      if (!modal) return;
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function prefillStayCare(type) {
+      const s = CHAT_STRINGS[currentChatLang] || CHAT_STRINGS.en;
+      const input = document.getElementById('chat-input');
+      if (!input) return;
+      input.value = s['msg_' + type] || '';
+      input.focus();
+    }
+
+    function openStayCareWithPrefill(type) {
+      openStayCareModal();
+      setTimeout(() => prefillStayCare(type), 160);
+    }
+
+    function toggleWifiCard(event) {
+      const support = event.target.closest('[data-wifi-support]');
+      if (support) {
+        event.preventDefault();
+        event.stopPropagation();
+        openStayCareWithPrefill('wifi');
+        return;
+      }
+      const card = event.currentTarget;
+      const open = !card.classList.contains('is-open');
+      card.classList.toggle('is-open', open);
+      card.setAttribute('aria-expanded', String(open));
+    }
+
+    function handleServiceRequest(type) {
+      openStayCareModal();
+      setTimeout(() => sendPreset(type), 220);
+    }
+
+    function handlePremiumRequest(type) {
+      openStayCareModal();
+      setTimeout(() => sendPreset(type), 220);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('[data-open-modal="modal-staycare"]').forEach((button) => {
+        button.addEventListener('click', openStayCareModal);
+      });
+
+      document.querySelectorAll('[data-close-modal="modal-staycare"]').forEach((button) => {
+        button.addEventListener('click', closeStayCareModal);
+      });
+
+      document.querySelectorAll('[data-service]').forEach((button) => {
+        button.addEventListener('click', () => handleServiceRequest(button.dataset.service));
+      });
+
+      document.querySelectorAll('[data-premium-request]').forEach((button) => {
+        button.addEventListener('click', () => handlePremiumRequest(button.dataset.premiumRequest));
+      });
+
+      document.querySelector('[data-wifi-card]')?.addEventListener('click', toggleWifiCard);
+      document.querySelector('[data-wifi-support]')?.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openStayCareWithPrefill('wifi');
+        }
+      });
+
+      document.querySelector('[data-night-staff]')?.addEventListener('click', () => {
+        openStayCareModal();
+        const input = document.getElementById('chat-input');
+        input.value = currentChatLang === 'ja'
+          ? '至急、夜間スタッフに連絡したいです。'
+          : 'I need urgent support from the night staff.';
+        input.focus();
+      });
+
+      document.getElementById('modal-staycare')?.addEventListener('click', (event) => {
+        if (event.target.id === 'modal-staycare') closeStayCareModal();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeStayCareModal();
+      });
+
+      updateChatUI();
+    });
+  </script>
+  <script src="somavio-live.js" defer></script>
+  <script>document.addEventListener('DOMContentLoaded', () => { if (window.lucide) window.lucide.createIcons(); });</script>
+</body>
+</html>

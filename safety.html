@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en" data-sv-page="safety">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SomaVio | Safety & Official Checks</title>
+  <meta name="description" content="Premium official-source safety orientation for Canmore, Kananaskis and Banff visitors." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --stone:       #2C2C2A;
+      --sage:        #6B7F6E;
+      --mist:        #F4F1EC;
+      --glacier:     #D6E4E1;
+      --amber:       #C8923A;
+      --slate:       #4A5568;
+      --white:       #FFFFFF;
+      --care-blue:   #3B82F6;
+      --care-amber:  #D97706;
+      --care-teal:   #0D9488;
+      --emergency:   #DC2626;
+      --ice-blue:    #6DA8C7;
+      --fire-clay:   #B65A46;
+      --closure-ink: #39414C;
+      --shadow-1: 0 1px 3px rgba(44,44,42,0.08);
+      --shadow-2: 0 4px 12px rgba(44,44,42,0.12);
+      --shadow-3: 0 8px 32px rgba(44,44,42,0.18);
+      --shadow-hero: 0 24px 80px rgba(15,23,42,0.30);
+      --r-card: 8px;
+      --r-btn:  6px;
+      --r-pill: 100px;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'Inter', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--mist);
+      color: var(--stone);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+    ul { list-style: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+    .label-caps { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+
+    .context-bar {
+      position: sticky; top: 0; z-index: 100;
+      height: 36px; background: var(--mist);
+      border-bottom: 1px solid rgba(44,44,42,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 500; color: var(--slate); letter-spacing: 0.04em;
+    }
+    .ctx-accent { color: var(--sage); font-weight: 700; }
+
+    .site-header {
+      position: sticky; top: 36px; z-index: 99;
+      height: 64px; background: var(--stone);
+      display: flex; align-items: center;
+    }
+    .header-inner {
+      display: flex; align-items: center; width: 100%;
+      max-width: 1280px; margin: 0 auto; padding: 0 40px;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-display); font-size: 20px;
+      color: var(--white); font-weight: 700; flex-shrink: 0;
+    }
+    .logo-icon {
+      width: 32px; height: 32px; background: var(--amber);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
+    .logo-icon svg { color: var(--white); }
+    .main-nav { display: flex; align-items: center; gap: 2px; margin-left: 36px; flex: 1; }
+    .main-nav a {
+      padding: 6px 11px; font-size: 14px; font-weight: 500;
+      color: rgba(255,255,255,0.8); border-radius: var(--r-btn);
+      transition: color 0.2s, background 0.2s;
+    }
+    .main-nav a:hover, .main-nav a.active { color: var(--white); background: rgba(255,255,255,0.08); }
+    .header-actions { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+    .staying-here { font-size: 13px; color: rgba(255,255,255,0.65); transition: color 0.2s; }
+    .staying-here:hover { color: var(--white); }
+    .lang-selector-wrap { position: relative; }
+    .lang-toggle {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 12px; border: 1.5px solid rgba(255,255,255,0.2);
+      border-radius: var(--r-pill); color: var(--white);
+      font-size: 13px; font-weight: 500; background: transparent;
+      transition: border-color 0.2s;
+    }
+    .lang-toggle:hover { border-color: rgba(255,255,255,0.4); }
+    .lang-toggle svg { color: rgba(255,255,255,0.6); }
+    .lang-dropdown {
+      position: absolute; top: calc(100% + 8px); right: 0;
+      background: var(--white); border-radius: var(--r-card);
+      box-shadow: var(--shadow-2); padding: 8px; min-width: 140px;
+      display: none; flex-direction: column; gap: 2px; z-index: 200;
+    }
+    .lang-dropdown.open { display: flex; }
+    .lang-option {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px; border-radius: 6px;
+      font-size: 13px; font-weight: 500; color: var(--slate);
+      background: none; text-align: left; width: 100%;
+      transition: background 0.15s, color 0.15s;
+    }
+    .lang-option:hover { background: var(--mist); color: var(--stone); }
+    .lang-option.active { font-weight: 700; color: var(--stone); background: var(--glacier); }
+    .lang-flag { font-size: 16px; }
+    .mobile-actions { display: none; align-items: center; gap: 16px; }
+    .hamburger-btn { background:none; border:none; color:var(--white); display:flex; align-items:center; padding:4px; }
+
+    .drawer-overlay { position:fixed; inset:0; z-index:500; background:rgba(44,44,42,0.55); opacity:0; pointer-events:none; transition:opacity 0.25s ease; }
+    .drawer-overlay.open { opacity:1; pointer-events:all; }
+    .drawer { position:fixed; top:0; right:0; bottom:0; z-index:501; width:min(320px,85vw); background:var(--stone); display:flex; flex-direction:column; transform:translateX(100%); transition:transform 0.28s cubic-bezier(0.4,0,0.2,1); overflow-y:auto; }
+    .drawer.open { transform:translateX(0); }
+    .drawer-header { display:flex; align-items:center; justify-content:space-between; padding:20px 20px 16px; border-bottom:1px solid rgba(255,255,255,0.08); }
+    .drawer-logo { display:flex; align-items:center; gap:8px; font-family:var(--font-display); font-size:18px; color:var(--white); font-weight:700; }
+    .drawer-logo-icon { width:28px; height:28px; background:var(--amber); border-radius:50%; display:flex; align-items:center; justify-content:center; }
+    .drawer-close { width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.7); transition:background 0.2s; }
+    .drawer-close:hover { background:rgba(255,255,255,0.16); }
+    .drawer-nav { padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.08); }
+    .drawer-nav-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:rgba(255,255,255,0.3); padding:12px 20px 6px; }
+    .drawer-nav a { display:flex; align-items:center; gap:12px; padding:12px 20px; font-size:15px; font-weight:500; color:rgba(255,255,255,0.82); transition:background 0.15s,color 0.15s; }
+    .drawer-nav a:hover { background:rgba(255,255,255,0.06); color:var(--white); }
+    .drawer-nav a svg { width:17px; height:17px; color:var(--sage); flex-shrink:0; }
+    .drawer-lang { padding:16px 20px; border-top:1px solid rgba(255,255,255,0.08); }
+    .drawer-lang-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:rgba(255,255,255,0.3); margin-bottom:10px; }
+    .drawer-lang-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+    .drawer-lang-btn { padding:9px 6px; border-radius:6px; border:1.5px solid rgba(255,255,255,0.12); background:transparent; color:rgba(255,255,255,0.65); font-size:12px; font-weight:700; text-align:center; transition:all 0.15s; }
+    .drawer-lang-btn:hover { background:rgba(255,255,255,0.08); color:var(--white); }
+    .drawer-lang-btn.active { background:var(--sage); border-color:var(--sage); color:var(--white); }
+    .drawer-footer { margin-top:auto; padding:16px 20px; font-size:11px; color:rgba(255,255,255,0.25); line-height:1.5; border-top:1px solid rgba(255,255,255,0.06); white-space:pre-line; }
+
+    .safety-editorial-hero {
+      min-height: 620px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      background-image:
+        radial-gradient(circle at 18% 20%, rgba(200,146,58,0.26), transparent 28%),
+        linear-gradient(110deg, rgba(18,27,35,0.88) 0%, rgba(44,44,42,0.72) 44%, rgba(44,44,42,0.28) 100%),
+        url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1800&q=88&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      color: var(--white);
+    }
+    .safety-editorial-hero::after {
+      content: '';
+      position: absolute; inset: auto 0 0 0;
+      height: 42%;
+      background: linear-gradient(to top, rgba(244,241,236,1), rgba(244,241,236,0));
+      pointer-events: none;
+    }
+    .hero-shell { position: relative; z-index: 1; width: 100%; padding: 96px 0 112px; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) 360px; gap: 48px; align-items: end; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.24);
+      backdrop-filter: blur(14px);
+      border-radius: var(--r-pill);
+      padding: 9px 15px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.88);
+      margin-bottom: 22px;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.18);
+    }
+    .hero-badge svg { width: 14px; height: 14px; color: var(--amber); }
+    .safety-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(46px, 7vw, 82px);
+      line-height: 0.98;
+      font-weight: 400;
+      letter-spacing: -0.035em;
+      max-width: 780px;
+      text-shadow: 0 22px 70px rgba(0,0,0,0.32);
+    }
+    .safety-hero-title em { color: var(--glacier); font-style: italic; }
+    .safety-hero-sub {
+      margin-top: 22px;
+      max-width: 640px;
+      font-size: 17px;
+      color: rgba(255,255,255,0.78);
+      line-height: 1.68;
+    }
+    .hero-source-panel {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(18px);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: var(--shadow-hero);
+    }
+    .hero-source-kicker { color: rgba(255,255,255,0.55); margin-bottom: 14px; }
+    .hero-source-list { display: flex; flex-direction: column; gap: 10px; }
+    .hero-source-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.83);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .hero-source-row:last-child { border-bottom: none; }
+    .hero-source-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--care-teal); box-shadow: 0 0 0 4px rgba(13,148,136,0.16); }
+    .hero-source-label { display:flex; align-items:center; gap:10px; }
+    .hero-source-status { font-size: 10px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.12em; }
+
+    .safety-pulse {
+      position: relative; z-index: 2;
+      margin-top: -58px;
+    }
+    .safety-pulse-card {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: var(--shadow-3);
+      padding: 20px 22px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      align-items: center;
+      border: 1px solid rgba(44,44,42,0.06);
+    }
+    .pulse-icon {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      background: rgba(13,148,136,0.10);
+      color: var(--care-teal);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pulse-icon svg { width: 22px; height: 22px; }
+    .pulse-label { color: var(--sage); margin-bottom: 3px; }
+    .pulse-text { font-size: 14px; color: var(--stone); font-weight: 600; line-height: 1.45; }
+    .pulse-source { font-size: 11px; color: var(--slate); font-weight: 700; }
+    .pulse-link {
+      display:inline-flex; align-items:center; gap:7px;
+      background: var(--stone); color: var(--white);
+      padding: 12px 18px; border-radius: var(--r-btn);
+      font-size: 13px; font-weight: 800; white-space: nowrap;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .pulse-link:hover { transform: translateY(-1px); background: #1f1f1d; }
+
+    .section { padding: 76px 0; }
+    .section-white { background: var(--white); }
+    .section-mist { background: var(--mist); }
+    .section-head { display: grid; grid-template-columns: minmax(0, 0.72fr) minmax(0, 0.8fr); gap: 32px; align-items: end; margin-bottom: 34px; }
+    .section-kicker { color: var(--amber); margin-bottom: 9px; }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.08;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      color: var(--stone);
+    }
+    .section-sub { color: var(--slate); font-size: 15px; line-height: 1.7; }
+
+    .risk-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
+    .risk-card {
+      grid-column: span 4;
+      position: relative;
+      overflow: hidden;
+      background: var(--white);
+      border-radius: 18px;
+      box-shadow: var(--shadow-1);
+      padding: 0;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(44,44,42,0.06);
+      border-left: 5px solid var(--sage);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+    .risk-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); }
+    .risk-card-wide { grid-column: span 8; }
+    .risk-visual {
+      height: 142px;
+      padding: 22px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      position: relative;
+      overflow: hidden;
+    }
+    .risk-visual::after {
+      content:'';
+      position:absolute;
+      inset:auto -20px -42px auto;
+      width:160px; height:160px;
+      border-radius:50%;
+      background: rgba(255,255,255,0.38);
+    }
+    .risk-visual svg { position: relative; z-index:1; width: 104px; height: 104px; stroke-width: 1.35; }
+    .risk-visual-label {
+      position: relative; z-index:2;
+      max-width: 145px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(44,44,42,0.52);
+      line-height: 1.5;
+      text-align: right;
+    }
+    .risk-body { padding: 22px; display:flex; flex-direction:column; gap: 12px; flex:1; }
+    .alert-badge {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--sage);
+    }
+    .risk-title { font-size: 19px; line-height: 1.2; font-weight: 800; color: var(--stone); }
+    .risk-desc { font-size: 13px; line-height: 1.62; color: var(--slate); flex: 1; }
+    .risk-context {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: rgba(44,44,42,0.035);
+      border: 1px solid rgba(44,44,42,0.06);
+      padding: 12px 13px;
+      border-radius: 12px;
+      font-size: 12px;
+      color: var(--stone);
+      line-height: 1.45;
+    }
+    .risk-context svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--sage); margin-top:1px; }
+    .risk-action-row { padding-top: 4px; }
+    .safety-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--white);
+      padding: 11px 16px;
+      border-radius: var(--r-btn);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .safety-action-btn:hover { opacity: 0.94; transform: translateY(-1px); }
+    .safety-action-btn svg { width: 13px; height: 13px; }
+    .card-wildlife { border-left-color: var(--care-amber); background: linear-gradient(180deg, rgba(217,119,6,0.035), var(--white) 32%); }
+    .card-wildlife .risk-visual { background: linear-gradient(135deg, rgba(217,119,6,0.20), rgba(200,146,58,0.10)); color: var(--care-amber); }
+    .card-wildlife .alert-badge { color: var(--care-amber); }
+    .card-wildlife .safety-action-btn { background: var(--care-amber); }
+    .card-avalanche { border-left-color: var(--ice-blue); background: linear-gradient(180deg, rgba(109,168,199,0.040), var(--white) 32%); }
+    .card-avalanche .risk-visual { background: linear-gradient(135deg, rgba(109,168,199,0.20), rgba(214,228,225,0.34)); color: var(--ice-blue); }
+    .card-avalanche .alert-badge { color: var(--ice-blue); }
+    .card-avalanche .safety-action-btn { background: var(--ice-blue); }
+    .card-fire { border-left-color: var(--fire-clay); background: linear-gradient(180deg, rgba(182,90,70,0.040), var(--white) 32%); }
+    .card-fire .risk-visual { background: linear-gradient(135deg, rgba(182,90,70,0.18), rgba(200,146,58,0.10)); color: var(--fire-clay); }
+    .card-fire .alert-badge { color: var(--fire-clay); }
+    .card-fire .safety-action-btn { background: var(--fire-clay); }
+    .card-weather { border-left-color: var(--slate); background: linear-gradient(180deg, rgba(74,85,104,0.040), var(--white) 32%); }
+    .card-weather .risk-visual { background: linear-gradient(135deg, rgba(74,85,104,0.18), rgba(214,228,225,0.20)); color: var(--slate); }
+    .card-weather .alert-badge { color: var(--slate); }
+    .card-weather .safety-action-btn { background: var(--slate); }
+    .card-closure { border-left-color: var(--closure-ink); background: linear-gradient(180deg, rgba(57,65,76,0.045), var(--white) 32%); }
+    .card-closure .risk-visual { background: linear-gradient(135deg, rgba(57,65,76,0.18), rgba(107,127,110,0.12)); color: var(--closure-ink); }
+    .card-closure .alert-badge { color: var(--closure-ink); }
+    .card-closure .safety-action-btn { background: var(--closure-ink); }
+    .closure-pills { display:flex; gap: 8px; flex-wrap: wrap; margin-top: 2px; }
+    .closure-pill { display:inline-flex; padding: 7px 10px; border-radius: var(--r-pill); background: rgba(57,65,76,0.07); color: var(--closure-ink); font-size: 11px; font-weight: 800; }
+
+    .prepared-grid { display:grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; align-items: stretch; }
+    .prepared-image {
+      min-height: 420px;
+      border-radius: 22px;
+      overflow:hidden;
+      background-image:
+        linear-gradient(to top, rgba(44,44,42,0.74), rgba(44,44,42,0.08)),
+        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=85&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      box-shadow: var(--shadow-2);
+    }
+    .prepared-image-card {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(16px);
+      border-radius: 16px;
+      padding: 20px;
+      color: var(--white);
+    }
+    .prepared-image-card h3 { font-family: var(--font-display); font-size: 28px; font-weight: 400; line-height:1.12; margin-bottom:8px; }
+    .prepared-image-card p { font-size: 13px; color: rgba(255,255,255,0.74); line-height:1.6; }
+    .prepared-card { background: var(--white); border-radius: 22px; padding: 30px; box-shadow: var(--shadow-1); border: 1px solid rgba(44,44,42,0.06); }
+    .prepared-title { font-size: 22px; color: var(--stone); font-weight: 800; margin-bottom: 18px; }
+    .prepared-list { display:grid; gap: 13px; }
+    .prepared-item { display:flex; gap: 12px; align-items:flex-start; padding: 13px 0; border-bottom:1px solid rgba(44,44,42,0.06); }
+    .prepared-item:last-child { border-bottom:none; }
+    .prepared-dot { width:24px; height:24px; border-radius:50%; background: var(--sage); color:var(--white); display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+    .prepared-dot svg { width:13px; height:13px; }
+    .prepared-text { color: var(--stone); font-size:14px; line-height:1.48; }
+    .emergency-callout { margin-top: 22px; border-left: 4px solid var(--emergency); background: rgba(220,38,38,0.055); border-radius: 0 14px 14px 0; padding: 16px 18px; color: var(--stone); font-size: 14px; line-height: 1.5; }
+    .emergency-callout strong { color: var(--emergency); }
+
+    .sources-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .source-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: var(--shadow-1);
+      border: 1px solid rgba(44,44,42,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .source-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
+    .source-name { font-size: 15px; font-weight: 800; color: var(--stone); margin-bottom: 6px; }
+    .source-desc { font-size: 12px; line-height: 1.55; color: var(--slate); min-height: 56px; }
+    .source-link { display:inline-flex; align-items:center; gap: 5px; color: var(--sage); font-size: 12px; font-weight: 800; margin-top: 12px; }
+    .source-link svg { width: 12px; height: 12px; }
+
+    .gear-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 600;
+      background: rgba(15,23,32,0.68);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.22s ease, visibility 0.22s ease;
+    }
+    .gear-modal-overlay.open { opacity: 1; visibility: visible; pointer-events: all; }
+    .gear-modal {
+      width: min(980px, 100%);
+      max-height: 92vh;
+      overflow: auto;
+      background: var(--white);
+      border-radius: 24px;
+      box-shadow: 0 30px 100px rgba(0,0,0,0.38);
+      transform: translateY(18px) scale(0.985);
+      transition: transform 0.22s ease;
+    }
+    .gear-modal-overlay.open .gear-modal { transform: translateY(0) scale(1); }
+    .gear-modal-header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 16px;
+      padding: 22px 24px 0;
+    }
+    .gear-modal-label {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      color: var(--care-amber);
+      background: rgba(217,119,6,0.10);
+      border: 1px solid rgba(217,119,6,0.18);
+      border-radius: var(--r-pill);
+      padding: 8px 13px;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .gear-modal-close {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--mist);
+      color: var(--slate);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s;
+    }
+    .gear-modal-close:hover { background: var(--glacier); color: var(--stone); }
+    .gear-modal-close svg { width: 18px; height: 18px; }
+    .gear-modal-body { padding: 22px 24px 24px; }
+    .modal-hero {
+      display:grid;
+      grid-template-columns: 1fr 220px;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .gear-modal-title {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.02;
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      color: var(--stone);
+      margin-bottom: 14px;
+    }
+    .gear-modal-lead { color: var(--slate); font-size: 15px; line-height: 1.7; max-width: 670px; }
+    .modal-crest {
+      height: 180px;
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(217,119,6,0.18), rgba(107,127,110,0.14));
+      color: var(--care-amber);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .modal-crest::after { content:''; position:absolute; width:150px; height:150px; border-radius:50%; right:-34px; bottom:-42px; background:rgba(255,255,255,0.42); }
+    .modal-crest svg { width:116px; height:116px; position:relative; z-index:1; stroke-width:1.2; }
+    .infographic-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 22px 0; }
+    .info-panel {
+      position: relative;
+      border-radius: 18px;
+      background: var(--mist);
+      border: 1px solid rgba(44,44,42,0.06);
+      padding: 18px;
+      overflow:hidden;
+      min-height: 310px;
+    }
+    .info-panel::after { content:''; position:absolute; inset:auto -50px -70px auto; width:180px; height:180px; border-radius:50%; background:rgba(255,255,255,0.60); }
+    .info-kicker { color: var(--care-amber); margin-bottom: 8px; position:relative; z-index:2; }
+    .info-title { font-size: 17px; font-weight: 900; color: var(--stone); margin-bottom: 10px; position:relative; z-index:2; }
+    .info-text { font-size: 13px; color: var(--slate); line-height: 1.62; position:relative; z-index:2; }
+    .wind-map {
+      height: 116px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(107,127,110,0.12), rgba(214,228,225,0.65));
+      margin-bottom: 14px;
+      position:relative;
+      z-index:2;
+      overflow:hidden;
+    }
+    .wind-line { position:absolute; height:2px; background:rgba(107,127,110,0.55); border-radius:20px; }
+    .wind-line::after { content:''; position:absolute; right:-2px; top:-4px; border-left:8px solid rgba(107,127,110,0.70); border-top:5px solid transparent; border-bottom:5px solid transparent; }
+    .wind-a { width:82px; left:22px; top:26px; transform:rotate(-12deg); }
+    .wind-b { width:118px; left:68px; top:58px; transform:rotate(7deg); }
+    .wind-c { width:72px; left:30px; bottom:24px; transform:rotate(13deg); }
+    .track-dot { position:absolute; width:10px; height:10px; border-radius:50%; background:rgba(217,119,6,0.70); box-shadow:0 0 0 5px rgba(217,119,6,0.12); }
+    .track-1 { right:36px; top:30px; }
+    .track-2 { right:64px; top:70px; }
+    .track-3 { right:26px; bottom:22px; }
+    .signal-tags { display:flex; gap: 7px; flex-wrap: wrap; margin-bottom: 12px; position:relative; z-index:2; }
+    .signal-tag { padding: 6px 8px; border-radius: var(--r-pill); background: rgba(107,127,110,0.11); color: var(--sage); font-size: 10px; font-weight: 900; }
+    .calm-gauge {
+      height: 116px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom: 14px;
+      position:relative;
+      z-index:2;
+    }
+    .gauge-ring {
+      width: 106px;
+      height: 106px;
+      border-radius: 50%;
+      background: conic-gradient(var(--care-teal) 0 68%, rgba(44,44,42,0.08) 68% 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: inset 0 0 0 10px rgba(255,255,255,0.52);
+    }
+    .gauge-core {
+      width: 70px;
+      height:70px;
+      border-radius:50%;
+      background: var(--white);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      color:var(--care-teal);
+      font-weight:900;
+      font-size:12px;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+    }
+    .gauge-core span { font-size: 9px; color: var(--slate); letter-spacing: 0.10em; margin-top:2px; }
+    .memory-chart { display:grid; grid-template-columns: repeat(3, 1fr); gap: 8px; height: 116px; align-items:end; margin-bottom: 14px; position:relative; z-index:2; }
+    .memory-bar { border-radius: 12px 12px 6px 6px; background: linear-gradient(to top, rgba(217,119,6,0.75), rgba(200,146,58,0.48)); display:flex; align-items:flex-start; justify-content:center; color:var(--white); font-size:10px; font-weight:900; padding-top:8px; }
+    .memory-bar:nth-child(1){ height:42%; }
+    .memory-bar:nth-child(2){ height:68%; }
+    .memory-bar:nth-child(3){ height:92%; }
+    .stat-row { display:flex; gap: 8px; flex-wrap: wrap; position:relative; z-index:2; margin-bottom: 12px; }
+    .stat-badge { background: var(--white); border:1px solid rgba(217,119,6,0.16); border-radius: var(--r-pill); padding: 7px 9px; color: var(--care-amber); font-size:10px; font-weight:900; }
+    .institutional-close {
+      background: linear-gradient(135deg, rgba(44,44,42,0.96), rgba(57,65,76,0.92));
+      color: var(--white);
+      border-radius: 20px;
+      padding: 24px;
+      display:grid;
+      grid-template-columns: 1fr 260px;
+      gap: 22px;
+      align-items:center;
+      overflow:hidden;
+      position:relative;
+    }
+    .institutional-close::after { content:''; position:absolute; right:-80px; top:-70px; width:210px; height:210px; border-radius:50%; background:rgba(200,146,58,0.14); }
+    .institutional-close h3 { font-family: var(--font-display); font-size: 30px; font-weight: 400; line-height: 1.12; margin-bottom: 10px; position:relative; z-index:1; }
+    .institutional-close p { color: rgba(255,255,255,0.72); font-size: 13px; line-height:1.72; position:relative; z-index:1; }
+    .institutional-badges { display:grid; gap: 10px; position:relative; z-index:1; }
+    .institutional-badge { border:1px solid rgba(255,255,255,0.14); background:rgba(255,255,255,0.08); border-radius:14px; padding:12px 13px; color:rgba(255,255,255,0.82); font-size:12px; font-weight:800; }
+    .gear-modal-actions { display:flex; gap:10px; padding: 0 24px 24px; flex-wrap:wrap; }
+    .gear-modal-primary { display:inline-flex; align-items:center; justify-content:center; background:var(--sage); color:var(--white); padding:12px 22px; border-radius:var(--r-btn); font-size:14px; font-weight:800; transition:background 0.2s; }
+    .gear-modal-primary:hover { background:#5a6f60; }
+
+    .simple-modal-text { font-size:14px; color: var(--slate); line-height:1.72; margin-bottom: 14px; }
+    .simple-modal-card { background: var(--mist); border:1px solid rgba(44,44,42,0.06); border-radius:16px; padding:18px; margin-top:16px; }
+    .simple-modal-card h3 { font-size:15px; color:var(--stone); margin-bottom:8px; }
+
+    .footer-b2b { background: var(--stone); padding: 64px 0 32px; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1.3fr 1fr; gap: 40px; margin-bottom: 32px; }
+    .footer-logo { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-size: 18px; color: var(--white); font-weight: 700; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; color: var(--glacier); margin-bottom: 6px; }
+    .footer-copy { font-size: 11px; color: var(--slate); }
+    .footer-col-title { color: var(--glacier); margin-bottom: 14px; }
+    .footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 9px; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--white); }
+    .footer-message { font-size: 11px; color: var(--slate); line-height: 1.6; margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); }
+
+
+    .guest-context-return {
+      display: none;
+      position: sticky;
+      top: 100px;
+      z-index: 98;
+      background: rgba(255,255,255,0.96);
+      border-bottom: 1px solid rgba(44,44,42,0.08);
+      box-shadow: 0 10px 30px rgba(44,44,42,0.08);
+      backdrop-filter: blur(14px);
+    }
+    body.is-guesthub-context .guest-context-return { display: block; }
+    .guest-context-return-inner {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+    .guest-context-copy {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+    .guest-context-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: rgba(107,127,110,0.12);
+      color: var(--sage);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .guest-context-icon svg { width: 20px; height: 20px; }
+    .guest-context-label { color: var(--sage); margin-bottom: 3px; }
+    .guest-context-title { color: var(--stone); font-size: 14px; font-weight: 900; line-height: 1.25; }
+    .guest-context-note { color: var(--slate); font-size: 12px; line-height: 1.45; margin-top: 2px; }
+    .guest-context-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      background: var(--stone);
+      color: var(--white);
+      border-radius: var(--r-btn);
+      padding: 11px 16px;
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+    .guest-context-btn:hover { transform: translateY(-1px); background: #1f1f1d; }
+
+    @media (max-width: 1060px) {
+      .main-nav, .staying-here { display:none; }
+      .mobile-actions { display:flex; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-source-panel { max-width: 480px; }
+      .risk-card { grid-column: span 6; }
+      .risk-card-wide { grid-column: span 12; }
+      .prepared-grid { grid-template-columns: 1fr; }
+      .sources-grid { grid-template-columns: repeat(2,1fr); }
+      .infographic-grid { grid-template-columns: 1fr; }
+      .modal-hero { grid-template-columns: 1fr; }
+      .modal-crest { display:none; }
+      .institutional-close { grid-template-columns:1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .container { padding: 0 16px; }
+      .header-inner { padding: 0 16px; }
+      .header-actions { gap: 10px; }
+      .safety-editorial-hero { min-height: 590px; }
+      .hero-shell { padding: 72px 0 96px; }
+      .hero-badge { align-items:flex-start; border-radius:18px; line-height:1.45; }
+      .safety-pulse { margin-top: -38px; }
+      .safety-pulse-card { grid-template-columns: 1fr; padding: 18px; }
+      .pulse-link { width:100%; justify-content:center; }
+      .section { padding: 58px 0; }
+      .section-head { grid-template-columns: 1fr; gap: 14px; }
+      .risk-card, .risk-card-wide { grid-column: span 12; min-height: 0; }
+      .risk-visual { height: 126px; }
+      .risk-visual svg { width:90px; height:90px; }
+      .prepared-image { min-height: 360px; }
+      .prepared-card { padding:22px; }
+      .sources-grid { grid-template-columns:1fr; }
+      .gear-modal-overlay { align-items:flex-end; padding:0; }
+      .gear-modal { border-radius: 20px 20px 0 0; max-height: 94vh; }
+      .gear-modal-header { padding: 18px 18px 0; }
+      .gear-modal-body { padding: 18px; }
+      .gear-modal-actions { padding: 0 18px 18px; }
+      .gear-modal-primary { width:100%; }
+      .institutional-close { padding:20px; }
+      .footer-grid { grid-template-columns: 1fr; }
+
+      .guest-context-return { top: 100px; }
+      .guest-context-return-inner { align-items: flex-start; flex-direction: column; }
+      .guest-context-btn { width: 100%; }
+    }
+  </style>
+</head>
+<body data-sv-page="safety">
+  <div class="context-bar">
+    <span><span class="ctx-accent" data-i18n="safety_context">Alberta · Safety & Conditions</span></span>
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo" aria-label="SomaVio home">
+        <span class="logo-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </span>
+        SomaVio
+      </a>
+      <nav class="main-nav" aria-label="Site navigation">
+        <a href="index.html" data-i18n="nav_explore">Explore</a>
+        <a href="hotels.html" data-i18n="nav_stay">Stay</a>
+        <a href="category.html" data-i18n="nav_eat">Eat</a>
+        <a href="trip.html" data-i18n="nav_plan">Plan Your Day</a>
+        <a href="safety.html" class="active" data-i18n="nav_safety">Safety</a>
+        <a href="local-rules.html" data-i18n="nav_rules">Local Rules</a>
+        <a href="category.html" data-i18n="nav_about">About Canmore</a>
+      </nav>
+      <div class="header-actions">
+        <a href="hotel.html" class="staying-here" data-i18n="staying_here">Staying here? →</a>
+        <div class="lang-selector-wrap">
+          <button class="lang-toggle" id="lang-toggle" type="button" aria-label="Language selector" aria-expanded="false">
+            <span class="lang-txt">EN</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="lang-dropdown" id="lang-dropdown">
+            <button class="lang-option active" type="button" data-lang="en"><span class="lang-flag">🇬🇧</span> <span data-i18n="lang_english">English</span></button>
+            <button class="lang-option" type="button" data-lang="ja"><span class="lang-flag">🇯🇵</span> <span data-i18n="lang_japanese">日本語</span></button>
+          </div>
+        </div>
+        <div class="mobile-actions">
+          <button class="hamburger-btn" type="button" aria-label="Open menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <div class="drawer" id="drawer" role="dialog" aria-label="Navigation menu">
+    <div class="drawer-header">
+      <div class="drawer-logo">
+        <div class="drawer-logo-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+        SomaVio
+      </div>
+      <button class="drawer-close" type="button" aria-label="Close menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="drawer-nav">
+      <div class="drawer-nav-label" data-i18n="drawer_label_explore">Explore</div>
+      <a href="index.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span data-i18n="drawer_home">Home</span></a>
+      <a href="category.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg><span data-i18n="drawer_explore">Explore Canmore</span></a>
+      <a href="trip.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span data-i18n="drawer_plan">Plan Your Day</span></a>
+      <a href="safety.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span data-i18n="drawer_safety">Safety & Conditions</span></a>
+      <a href="hotel.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span data-i18n="drawer_hotel">Guest Hub</span></a>
+      <a href="partners.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span data-i18n="drawer_partners">For Partners</span></a>
+    </div>
+    <div class="drawer-lang">
+      <div class="drawer-lang-label" data-i18n="drawer_lang_label">Language</div>
+      <div class="drawer-lang-grid">
+        <button class="drawer-lang-btn lang-option active" type="button" data-lang="en">🇬🇧 EN</button>
+        <button class="drawer-lang-btn lang-option" type="button" data-lang="ja">🇯🇵 JA</button>
+      </div>
+    </div>
+    <div class="drawer-footer" data-i18n="drawer_footer">SomaVio · Local guidance for Alberta
+© 2026</div>
+  </div>
+
+  <div class="guest-context-return" id="guest-context-return" aria-label="Guest Hub return context">
+    <div class="container guest-context-return-inner">
+      <div class="guest-context-copy">
+        <span class="guest-context-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+        </span>
+        <span>
+          <span class="guest-context-label label-caps" data-i18n="safety_guest_return_label">Guest safety view</span>
+          <span class="guest-context-title" data-i18n="safety_guest_return_title">Viewing safety from your hotel Guest Hub.</span>
+          <span class="guest-context-note" data-i18n="safety_guest_return_copy">You can return to The Alpine Hotel dashboard anytime.</span>
+        </span>
+      </div>
+      <a class="guest-context-btn" href="guesthub.html" data-i18n="safety_guest_return_cta">Back to Guest Hub →</a>
+    </div>
+  </div>
+
+  <section class="safety-editorial-hero">
+    <div class="hero-shell">
+      <div class="container hero-grid">
+        <div>
+          <div class="hero-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            <span data-i18n="safety_hero_badge">Official Government Sources Monitored In Real-Time</span>
+          </div>
+          <h1 class="safety-hero-title" data-i18n-html="safety_hero_title">Read the Rockies<br><em>before you go.</em></h1>
+          <p class="safety-hero-sub" data-i18n="safety_hero_sub">A premium safety orientation layer for Canmore, Kananaskis and Banff visitors — built to turn official alerts into calm, practical decisions.</p>
+        </div>
+        <aside class="hero-source-panel" aria-label="Official source monitor">
+          <div class="hero-source-kicker label-caps" data-i18n="safety_hero_sources_label">Official-source monitor</div>
+          <div class="hero-source-list">
+            <div class="hero-source-row"><span class="hero-source-label"><span class="hero-source-dot"></span><span data-i18n="source_parks_canada_name">Parks Canada</span></span><span class="hero-source-status" data-i18n="source_status_monitored">Monitored</span></div>
+            <div class="hero-source-row"><span class="hero-source-label"><span class="hero-source-dot"></span><span data-i18n="source_alberta_parks_name">Alberta Parks</span></span><span class="hero-source-status" data-i18n="source_status_monitored">Monitored</span></div>
+            <div class="hero-source-row"><span class="hero-source-label"><span class="hero-source-dot"></span><span data-i18n="source_weather_name">Environment and Climate Change Canada</span></span><span class="hero-source-status" data-i18n="source_status_monitored">Monitored</span></div>
+            <div class="hero-source-row"><span class="hero-source-label"><span class="hero-source-dot"></span><span data-i18n="source_rivers_name">Alberta River Basins / Town of Canmore</span></span><span class="hero-source-status" data-i18n="source_status_monitored">Monitored</span></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div class="safety-pulse">
+    <div class="container">
+      <div class="safety-pulse-card">
+        <div class="pulse-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 3 7v6c0 5 3.8 8.6 9 9 5.2-.4 9-4 9-9V7l-9-5Z"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></div>
+        <div>
+          <div class="pulse-label label-caps" data-i18n="safety_bar_label">Stay-moment safety layer</div>
+          <div class="pulse-text" data-i18n="safety_bar_text">Mountain conditions can change quickly. Check official sources before you choose a trail, river activity or scenic drive.</div>
+          <div class="pulse-source" data-i18n="safety_bar_source">Source: Parks Canada / Alberta Parks / Town of Canmore</div>
+        </div>
+        <a href="#official-sources" class="pulse-link"><span data-i18n="safety_bar_link">View official checks →</span></a>
+      </div>
+    </div>
+  </div>
+
+  <section class="section section-mist" id="risk-pillars">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker label-caps" data-i18n="alert_section_kicker">Risk pillars</div>
+          <h2 class="section-title" data-i18n="alert_section_title">Mountain risks, translated into decisions.</h2>
+        </div>
+        <p class="section-sub" data-i18n="alert_section_sub">Each pillar has its own visual identity so visitors can identify the type of risk quickly, then open a calm educational layer instead of scanning identical text boxes.</p>
+      </div>
+
+      <div class="risk-grid">
+        <article class="risk-card card-wildlife" id="alert-wildlife">
+          <div class="risk-visual" aria-hidden="true">
+            <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 82c12-22 24-35 39-39 15-4 32 3 43 18"/><path d="M30 82c9-10 18-15 29-15s22 5 31 15"/><path d="M45 58c-2-9 2-19 12-22 11-4 23 3 26 14"/><path d="M41 85h52"/><path d="M49 85v14M73 85v14"/><path d="M56 53h.1M78 53h.1"/><path d="M63 63c5 4 10 4 15 0"/></svg>
+            <span class="risk-visual-label" data-i18n="visual_wildlife">Wildlife space</span>
+          </div>
+          <div class="risk-body">
+            <div class="alert-badge" data-i18n="alert_bear_source">Source: Parks Canada / Alberta Parks</div>
+            <h3 class="risk-title" data-i18n="alert_bear_title">Bear & Wildlife Activity</h3>
+            <p class="risk-desc" data-i18n="alert_bear_desc">Bear, cougar, elk and wildlife movement can affect trail access and visitor behaviour. Treat every sighting or warning as current until official sources clear it.</p>
+            <div class="risk-context"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v5"/><path d="M12 17h.01"/></svg><span data-i18n="alert_bear_context">Active awareness: wildlife activity can change by hour, season and food availability.</span></div>
+            <div class="risk-action-row"><button class="safety-action-btn modal-trigger" type="button" data-modal="wildlife" aria-controls="modal-wildlife"><span data-i18n="safety_wildlife_cta">Learn About Local Guidance &amp; Support →</span></button></div>
+          </div>
+        </article>
+
+        <article class="risk-card card-avalanche" id="alert-avalanche">
+          <div class="risk-visual" aria-hidden="true">
+            <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 88 44 34l20 37 13-21 27 38H16Z"/><path d="M44 34 53 61l-11-5-8 15"/><path d="M77 50 82 71l-9-7-5 12"/><path d="M28 93h64"/><path d="M24 101h76"/></svg>
+            <span class="risk-visual-label" data-i18n="visual_avalanche">Snow terrain</span>
+          </div>
+          <div class="risk-body">
+            <div class="alert-badge" data-i18n="alert_avalanche_source">Source: Avalanche Canada</div>
+            <h3 class="risk-title" data-i18n="alert_avalanche_title">Avalanches</h3>
+            <p class="risk-desc" data-i18n="alert_avalanche_desc">Backcountry snow conditions can shift quickly with temperature, wind, snowfall and sun exposure. Even scenic winter routes may require avalanche awareness.</p>
+            <div class="risk-context"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18"/><path d="M12 3v18"/></svg><span data-i18n="alert_avalanche_context">Seasonal awareness: winter and spring routes require forecast checks before departure.</span></div>
+            <div class="risk-action-row"><button class="safety-action-btn modal-trigger" type="button" data-modal="avalanche" aria-controls="modal-avalanche"><span data-i18n="alert_cta">Learn About Local Guidance &amp; Support →</span></button></div>
+          </div>
+        </article>
+
+        <article class="risk-card card-fire" id="alert-wildfire">
+          <div class="risk-visual" aria-hidden="true">
+            <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M62 102c21-8 28-25 23-41-4-13-14-20-17-34-11 9-9 24-7 32-10-7-15-18-15-32-20 18-28 39-20 56 6 13 18 21 36 19Z"/><path d="M59 94c10-5 14-13 11-23-5 5-9 7-16 7 1-9-1-15-6-21-8 12-10 24-4 31 3 4 8 6 15 6Z"/></svg>
+            <span class="risk-visual-label" data-i18n="visual_fire">Fire bans</span>
+          </div>
+          <div class="risk-body">
+            <div class="alert-badge" data-i18n="alert_wildfire_source">Source: Alberta Wildfire</div>
+            <h3 class="risk-title" data-i18n="alert_wildfire_title">Wildfires & Fire Bans</h3>
+            <p class="risk-desc" data-i18n="alert_wildfire_desc">Smoke, fire bans, closures and evacuation notices can change travel decisions across Alberta mountain regions.</p>
+            <div class="risk-context"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20"/><path d="m4 14 8 8 8-8"/></svg><span data-i18n="alert_wildfire_context">Regional awareness: check fire status and bans before campfires, backcountry trips or highway travel.</span></div>
+            <div class="risk-action-row"><button class="safety-action-btn modal-trigger" type="button" data-modal="wildfire" aria-controls="modal-wildfire"><span data-i18n="alert_cta">Learn About Local Guidance &amp; Support →</span></button></div>
+          </div>
+        </article>
+
+        <article class="risk-card card-weather" id="alert-weather">
+          <div class="risk-visual" aria-hidden="true">
+            <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M40 82h43a22 22 0 0 0 0-44 31 31 0 0 0-60 10 18 18 0 0 0 17 34Z"/><path d="M41 92h32"/><path d="M49 102h18"/><path d="M83 86l-9 17"/><path d="M55 86l-9 17"/></svg>
+            <span class="risk-visual-label" data-i18n="visual_weather">Storm shifts</span>
+          </div>
+          <div class="risk-body">
+            <div class="alert-badge" data-i18n="alert_weather_source">Source: Environment and Climate Change Canada</div>
+            <h3 class="risk-title" data-i18n="alert_weather_title">Severe Weather</h3>
+            <p class="risk-desc" data-i18n="alert_weather_desc">Mountain weather can move from calm to unsafe quickly, especially around high winds, thunderstorms, freezing rain and sudden temperature drops.</p>
+            <div class="risk-context"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 6h10"/><path d="M4 18h12"/></svg><span data-i18n="alert_weather_context">Daily awareness: always compare the town forecast with the elevation and exposure of your route.</span></div>
+            <div class="risk-action-row"><button class="safety-action-btn modal-trigger" type="button" data-modal="weather" aria-controls="modal-weather"><span data-i18n="alert_cta">Learn About Local Guidance &amp; Support →</span></button></div>
+          </div>
+        </article>
+
+        <article class="risk-card risk-card-wide card-closure" id="alert-closures-water">
+          <div class="risk-visual" aria-hidden="true">
+            <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 46h84"/><path d="M24 46v48"/><path d="M96 46v48"/><path d="M30 62h60"/><path d="M36 78h48"/><path d="m38 31 10-10 10 10 10-10 10 10"/><path d="M22 101c12-10 24-10 36 0s24 10 40 0"/></svg>
+            <span class="risk-visual-label" data-i18n="visual_closure">Closures + water flow</span>
+          </div>
+          <div class="risk-body">
+            <div class="alert-badge" data-i18n="alert_closure_water_source">Source: Parks Canada / Alberta Parks / Town of Canmore / Alberta River Basins</div>
+            <h3 class="risk-title" data-i18n="alert_closure_water_title">Closures & Water Flow</h3>
+            <p class="risk-desc" data-i18n="alert_closure_water_desc">Closures, rockfall hazards, high streamflow and debris movement can change safe access quickly. A route can look beautiful and still be unsafe because the hazard is overhead, upstream or beneath a riverbank.</p>
+            <div class="closure-pills"><span class="closure-pill" data-i18n="closure_pill_grassi">Grassi Lakes rockfall context</span><span class="closure-pill" data-i18n="closure_pill_snowmelt">Heavy rain + snowmelt flow</span><span class="closure-pill" data-i18n="closure_pill_debris">Flash flood & debris flow awareness</span></div>
+            <div class="risk-context"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18"/><path d="M12 3v18"/></svg><span data-i18n="alert_closure_water_context">Recent context: real closures and high-water advisories show why visitor guidance must connect trails, weather, rivers and official checks together.</span></div>
+            <div class="risk-action-row"><button class="safety-action-btn modal-trigger" type="button" data-modal="closure" aria-controls="modal-closure"><span data-i18n="alert_cta">Learn About Local Guidance &amp; Support →</span></button></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-white" id="before-you-go">
+    <div class="container prepared-grid">
+      <div class="prepared-image">
+        <div class="prepared-image-card">
+          <h3 data-i18n="prepared_image_title">A calmer visitor is a safer visitor.</h3>
+          <p data-i18n="prepared_image_text">The goal is not to make the mountains feel dangerous. The goal is to make the right decision feel easy before the day begins.</p>
+        </div>
+      </div>
+      <div class="prepared-card">
+        <div class="section-kicker label-caps" data-i18n="before_kicker">Before you go</div>
+        <h2 class="prepared-title" data-i18n="before_title">The quick mountain-readiness check</h2>
+        <div class="prepared-list">
+          <div class="prepared-item"><span class="prepared-dot"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span><span class="prepared-text" data-i18n="before_1">Check official conditions before leaving — not only the night before.</span></div>
+          <div class="prepared-item"><span class="prepared-dot"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span><span class="prepared-text" data-i18n="before_2">Respect trail closures and posted signs even when other visitors continue ahead.</span></div>
+          <div class="prepared-item"><span class="prepared-dot"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span><span class="prepared-text" data-i18n="before_3">Tell someone your route and expected return time.</span></div>
+          <div class="prepared-item"><span class="prepared-dot"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span><span class="prepared-text" data-i18n="before_4">Check mountain weather and road conditions before longer drives.</span></div>
+          <div class="prepared-item"><span class="prepared-dot"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span><span class="prepared-text" data-i18n="before_5">Download offline maps before heading into areas with unreliable signal.</span></div>
+          <div class="prepared-item"><span class="prepared-dot"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span><span class="prepared-text" data-i18n="before_7">Keep children, pets and inexperienced visitors away from fast water and unstable banks.</span></div>
+        </div>
+        <div class="emergency-callout" data-i18n-html="emergency_text">In any emergency: call <strong>911</strong> immediately. For park emergencies, follow posted instructions and contact official dispatch when directed.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-mist" id="official-sources">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker label-caps" data-i18n="sources_kicker">Official sources</div>
+          <h2 class="section-title" data-i18n="sources_title">Official sources remain the authority.</h2>
+        </div>
+        <p class="section-sub" data-i18n="sources_sub">SomaVio is designed to route visitors toward official-source checks, not to replace government advisories, emergency instructions or posted signs.</p>
+      </div>
+      <div class="sources-grid">
+        <div class="source-card"><div class="source-name" data-i18n="source_alberta_parks_name">Alberta Parks</div><p class="source-desc" data-i18n="source_alberta_parks_desc">Trail reports, Kananaskis visitor information, advisories and closures.</p><a class="source-link" href="https://albertaparks.ca/" target="_blank" rel="noopener"><span data-i18n="source_open">Open source →</span></a></div>
+        <div class="source-card"><div class="source-name" data-i18n="source_parks_canada_name">Parks Canada</div><p class="source-desc" data-i18n="source_parks_canada_desc">Banff National Park conditions, wildlife alerts, closures and official visitor guidance.</p><a class="source-link" href="https://parks.canada.ca/" target="_blank" rel="noopener"><span data-i18n="source_open">Open source →</span></a></div>
+        <div class="source-card"><div class="source-name" data-i18n="source_avalanche_name">Avalanche Canada</div><p class="source-desc" data-i18n="source_avalanche_desc">Avalanche forecasts and public avalanche safety information for winter and spring routes.</p><a class="source-link" href="https://avalanche.ca/" target="_blank" rel="noopener"><span data-i18n="source_open">Open source →</span></a></div>
+        <div class="source-card"><div class="source-name" data-i18n="source_weather_name">Environment and Climate Change Canada</div><p class="source-desc" data-i18n="source_weather_desc">Mountain weather forecasts, severe weather alerts and daily conditions.</p><a class="source-link" href="https://weather.gc.ca/" target="_blank" rel="noopener"><span data-i18n="source_open">Open source →</span></a></div>
+        <div class="source-card"><div class="source-name" data-i18n="source_wildfire_name">Alberta Wildfire</div><p class="source-desc" data-i18n="source_wildfire_desc">Wildfire status, fire bans, smoke conditions and evacuation-related information.</p><a class="source-link" href="https://www.alberta.ca/wildfire-status" target="_blank" rel="noopener"><span data-i18n="source_open">Open source →</span></a></div>
+        <div class="source-card"><div class="source-name" data-i18n="source_rivers_name">Alberta River Basins / Town of Canmore</div><p class="source-desc" data-i18n="source_rivers_desc">High streamflow advisories, flood monitoring and local hazard dashboards.</p><a class="source-link" href="https://rivers.alberta.ca/" target="_blank" rel="noopener"><span data-i18n="source_open">Open source →</span></a></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="gear-modal-overlay" id="modal-wildlife" aria-hidden="true">
+    <div class="gear-modal gear-modal-infographic" role="dialog" aria-modal="true" aria-labelledby="modal-wildlife-title">
+      <div class="gear-modal-header">
+        <span class="gear-modal-label" data-i18n="safety_wildlife_modal_label">Local Educational Partnership</span>
+        <button class="gear-modal-close" type="button" data-close-modal aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="gear-modal-body">
+        <div class="modal-hero">
+          <div>
+            <h2 class="gear-modal-title" id="modal-wildlife-title" data-i18n="wildlife_info_title">Wildlife safety is a behaviour system.</h2>
+            <p class="gear-modal-lead" data-i18n="wildlife_info_lead">Real confidence in the Rockies comes from reading the landscape, managing stress and rehearsing calm choices before a family or adventurer enters bear country.</p>
+          </div>
+          <div class="modal-crest" aria-hidden="true"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 82c12-22 24-35 39-39 15-4 32 3 43 18"/><path d="M30 82c9-10 18-15 29-15s22 5 31 15"/><path d="M45 58c-2-9 2-19 12-22 11-4 23 3 26 14"/><path d="M41 85h52"/><path d="M49 85v14M73 85v14"/><path d="M56 53h.1M78 53h.1"/><path d="M63 63c5 4 10 4 15 0"/></svg></div>
+        </div>
+        <div class="infographic-grid">
+          <section class="info-panel">
+            <div class="wind-map" aria-hidden="true"><span class="wind-line wind-a"></span><span class="wind-line wind-b"></span><span class="wind-line wind-c"></span><span class="track-dot track-1"></span><span class="track-dot track-2"></span><span class="track-dot track-3"></span></div>
+            <div class="signal-tags"><span class="signal-tag" data-i18n="wildlife_signal_wind">Wind</span><span class="signal-tag" data-i18n="wildlife_signal_tracks">Tracks</span><span class="signal-tag" data-i18n="wildlife_signal_food">Food</span><span class="signal-tag" data-i18n="wildlife_signal_space">Space</span></div>
+            <div class="info-kicker label-caps" data-i18n="wildlife_phase_1_label">Phase 1</div>
+            <h3 class="info-title" data-i18n="wildlife_phase_1_title">Wilderness Reading</h3>
+            <p class="info-text" data-i18n="wildlife_phase_1_text">Visitors learn to notice context: wind direction, fresh signs, food sources, sightlines, group spacing and whether the landscape is asking for a slower plan.</p>
+          </section>
+          <section class="info-panel">
+            <div class="calm-gauge" aria-hidden="true"><div class="gauge-ring"><div class="gauge-core"><span data-i18n="wildlife_gauge_calm">Calm</span><span data-i18n="wildlife_gauge_signal">Signal</span></div></div></div>
+            <div class="info-kicker label-caps" data-i18n="wildlife_phase_2_label">Phase 2</div>
+            <h3 class="info-title" data-i18n="wildlife_phase_2_title">Stress Management</h3>
+            <p class="info-text" data-i18n="wildlife_phase_2_text">The first instruction stays simple: stay calm, do not run. The purpose is to reduce panic, create distance and make a safer decision without sudden movement.</p>
+          </section>
+          <section class="info-panel">
+            <div class="memory-chart" aria-hidden="true"><div class="memory-bar">01</div><div class="memory-bar">02</div><div class="memory-bar">03</div></div>
+            <div class="stat-row"><span class="stat-badge" data-i18n="wildlife_stat_1">3 response habits</span><span class="stat-badge" data-i18n="wildlife_stat_2">Inert equipment only</span><span class="stat-badge" data-i18n="wildlife_stat_3">No sales pressure</span></div>
+            <div class="info-kicker label-caps" data-i18n="wildlife_phase_3_label">Phase 3</div>
+            <h3 class="info-title" data-i18n="wildlife_phase_3_title">The Muscle Memory Factor</h3>
+            <p class="info-text" data-i18n="wildlife_phase_3_text">This demo uses illustrative training indicators instead of fabricated safety claims: repetition, body position, voice control and calm decision-making become easier when practiced physically.</p>
+          </section>
+        </div>
+        <div class="institutional-close">
+          <div>
+            <h3 data-i18n="wildlife_institution_title">Community awareness, not a shortcut.</h3>
+            <p data-i18n="wildlife_institution_text">In this simulated sponsorship model, certified local partners and Canmore-based instructors support the portal through in-person ecological education workshops and free physical simulation sessions using inert demonstration equipment. Families and adventurers can rehearse safe reactions, reduce fear and understand the mountain environment before stepping onto the trail.</p>
+          </div>
+          <div class="institutional-badges">
+            <div class="institutional-badge" data-i18n="wildlife_badge_1">Certified local instruction model</div>
+            <div class="institutional-badge" data-i18n="wildlife_badge_2">Hands-on simulation with inert equipment</div>
+            <div class="institutional-badge" data-i18n="wildlife_badge_3">Education-first public awareness</div>
+          </div>
+        </div>
+      </div>
+      <div class="gear-modal-actions"><button class="gear-modal-primary" type="button" data-close-modal data-i18n="modal_cta_close">Got it</button></div>
+    </div>
+  </div>
+
+  <div class="gear-modal-overlay" id="modal-avalanche" aria-hidden="true"><div class="gear-modal" role="dialog" aria-modal="true" aria-labelledby="modal-avalanche-title"><div class="gear-modal-header"><span class="gear-modal-label" data-i18n="modal_label">Local guidance & support</span><button class="gear-modal-close" type="button" data-close-modal aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="gear-modal-body"><h2 class="gear-modal-title" id="modal-avalanche-title" data-i18n="modal_avalanche_title">Avalanche risk is invisible from the parking lot</h2><p class="simple-modal-text" data-i18n="modal_avalanche_risk">A blue-sky day can still hide unstable snow layers. Wind loading, warming, fresh snow and terrain angle can turn a scenic plan into a serious backcountry decision.</p><div class="simple-modal-card"><h3 data-i18n="modal_support_title">Local learning, not shortcuts</h3><p class="simple-modal-text" data-i18n="modal_avalanche_prevent">Preventive behaviour: read the forecast, understand whether your route enters avalanche terrain and choose lower-risk alternatives when conditions are uncertain.</p></div></div><div class="gear-modal-actions"><button class="gear-modal-primary" type="button" data-close-modal data-i18n="modal_cta_close">Got it</button></div></div></div>
+  <div class="gear-modal-overlay" id="modal-wildfire" aria-hidden="true"><div class="gear-modal" role="dialog" aria-modal="true" aria-labelledby="modal-wildfire-title"><div class="gear-modal-header"><span class="gear-modal-label" data-i18n="modal_label">Local guidance & support</span><button class="gear-modal-close" type="button" data-close-modal aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="gear-modal-body"><h2 class="gear-modal-title" id="modal-wildfire-title" data-i18n="modal_wildfire_title">Wildfire awareness protects visitors and the valley</h2><p class="simple-modal-text" data-i18n="modal_wildfire_risk">Smoke, dry vegetation, campfire restrictions and fast-changing fire behaviour can affect health, visibility, road access and local emergency capacity.</p><div class="simple-modal-card"><h3 data-i18n="modal_support_title">Local learning, not shortcuts</h3><p class="simple-modal-text" data-i18n="modal_wildfire_prevent">Preventive behaviour: check fire bans, avoid sparks, respect closures, monitor smoke sensitivity and keep evacuation information visible when conditions escalate.</p></div></div><div class="gear-modal-actions"><button class="gear-modal-primary" type="button" data-close-modal data-i18n="modal_cta_close">Got it</button></div></div></div>
+  <div class="gear-modal-overlay" id="modal-weather" aria-hidden="true"><div class="gear-modal" role="dialog" aria-modal="true" aria-labelledby="modal-weather-title"><div class="gear-modal-header"><span class="gear-modal-label" data-i18n="modal_label">Local guidance & support</span><button class="gear-modal-close" type="button" data-close-modal aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="gear-modal-body"><h2 class="gear-modal-title" id="modal-weather-title" data-i18n="modal_weather_title">Severe weather moves differently in the mountains</h2><p class="simple-modal-text" data-i18n="modal_weather_risk">Storm cells, wind, hail, cold rain and sudden temperature drops can arrive faster at elevation than visitors expect from the town forecast.</p><div class="simple-modal-card"><h3 data-i18n="modal_support_title">Local learning, not shortcuts</h3><p class="simple-modal-text" data-i18n="modal_weather_prevent">Preventive behaviour: check official alerts, compare weather with the elevation of your route, carry layers and choose indoor or lower-exposure options when warnings increase.</p></div></div><div class="gear-modal-actions"><button class="gear-modal-primary" type="button" data-close-modal data-i18n="modal_cta_close">Got it</button></div></div></div>
+  <div class="gear-modal-overlay" id="modal-closure" aria-hidden="true"><div class="gear-modal" role="dialog" aria-modal="true" aria-labelledby="modal-closure-title"><div class="gear-modal-header"><span class="gear-modal-label" data-i18n="modal_label">Local guidance & support</span><button class="gear-modal-close" type="button" data-close-modal aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="gear-modal-body"><h2 class="gear-modal-title" id="modal-closure-title" data-i18n="modal_closure_title">Closures, rivers and debris flow belong together</h2><p class="simple-modal-text" data-i18n="modal_closure_risk">Grassi Lakes rockfall, high Bow River flow, cold fast water and debris movement show the same visitor problem: the visible path may not reveal the real hazard.</p><div class="simple-modal-card"><h3 data-i18n="modal_support_title">Local learning, not shortcuts</h3><p class="simple-modal-text" data-i18n="modal_closure_prevent">Preventive behaviour: respect closure signs, stay away from unstable banks, keep children and pets far from fast water and use official alternatives until conditions are cleared.</p></div></div><div class="gear-modal-actions"><button class="gear-modal-primary" type="button" data-close-modal data-i18n="modal_cta_close">Got it</button></div></div></div>
+
+  <footer class="footer-b2b">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo"><span class="logo-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></span>SomaVio</div>
+          <p class="footer-tagline" data-i18n="footer_tagline">Local guidance for Alberta.</p>
+          <p class="footer-copy" data-i18n="footer_copy">© 2026 SomaVio</p>
+        </div>
+        <div class="footer-col"><div class="footer-col-title label-caps" data-i18n="footer_visitors">For Visitors</div><a href="index.html" data-i18n="drawer_home">Home</a><a href="category.html" data-i18n="drawer_explore">Explore Canmore</a><a href="trip.html" data-i18n="drawer_plan">Plan Your Day</a><a href="safety.html" data-i18n="drawer_safety">Safety & Conditions</a></div>
+        <div class="footer-col"><div class="footer-col-title label-caps" data-i18n="footer_partners">For Partners</div><a href="hotels.html" data-i18n="footer_hotels">For Hotels</a><a href="partners.html" data-i18n="footer_local_business">For Local Businesses</a><a href="organizations.html" data-i18n="footer_organizations">For Organizations</a><a href="studio.html" data-i18n="footer_studio">Partner Studio</a><p class="footer-message" data-i18n="footer_message">SomaVio complements existing systems. It does not replace PMS, OTA or emergency procedures.</p></div>
+        <div class="footer-col"><div class="footer-col-title label-caps" data-i18n="footer_legal">Legal</div><a href="#" data-i18n="footer_privacy">Privacy Policy</a><a href="#" data-i18n="footer_terms">Terms of Use</a><a href="#" data-i18n="footer_contact">Contact</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="somavio-live.js" defer></script>
+</body>
+</html>
